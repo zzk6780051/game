@@ -1,5 +1,4 @@
 <div align="center">
-    <img  width=180 src="https://cdn.jsdelivr.net/gh/zzk6780051/love/assets/logo.png"/>
     <h1>小游戏</h1> 
 </div>
 
@@ -7,8 +6,8 @@
     <!-- 第一行 -->
     <tr>
     <td valign="top">
-        <a target="_blank" href="https://zzk6780051.github.io/love/Web/001">
-            <p align="center">001</p>
+        <a target="_blank" href="https://zzk6780051.github.io/game/Web/tetris">
+            <p align="center">俄罗斯方块</p>
         </a>
     </td>
     <td valign="top">
