@@ -6,7 +6,7 @@
     <!-- 第一行 -->
     <tr>
     <td valign="top">
-        <a target="_blank" href="https://zzk6780051.github.io/game/Web/tetris">
+        <a target="_blank" href="https://zzk6780051.github.io/game/tetris">
             <p align="center">俄罗斯方块</p>
         </a>
     </td>
