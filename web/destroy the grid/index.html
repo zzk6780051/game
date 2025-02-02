@@ -1,0 +1,144 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>消灭格子</title>
+        <script type="text/javascript" src="../statics/js/jquery-1.8.3.min.js"></script>
+        <style type="text/css">
+            body {background-color:black;}
+            #main {width:540px; height:540px;}
+            #msg {color:white;}
+            .star {width:50px; height:50px; margin:1px; border:1px solid black; float:left;}
+            .c0 {background-color:orange;}
+            .c1 {background-color:green;}
+            .c2 {background-color:red;}
+            .c3 {background-color:yellow;}
+            .c4 {background-color:blue;}
+            .cleaned {background-color:black;}
+            .clicked {border-color:silver; cursor:pointer; background-color:silver;}
+        </style>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var blnIE = $.browser.msie;
+                var intCnt = 0;
+                var blnPlaying = true;
+                var funForGetMore = function(x, y, c) {
+                    var star = $('#' + x + '_' + y);
+                    if (star.hasClass(c) && !star.hasClass('clicked')) {
+                        star.addClass('clicked');
+                        getMore(x, y, c);
+                    }
+                }
+                var getMore = function(x, y, c) {
+                    x = parseInt(x); y = parseInt(y);
+                    (x > 0) && funForGetMore(x - 1, y, c);
+                    (y > 0) && funForGetMore(x, y - 1, c);
+                    (x < 9) && funForGetMore(x + 1, y, c);
+                    (y < 9) && funForGetMore(x, y + 1, c);
+                }
+                var cleanY = function(y, x) {
+                    y = parseInt(y);
+                    if (x > -1) {
+                        var star = $('#' + x + '_' + y);
+                        if (y == 9) {
+                            star.attr('class', 'star cleaned');
+                        } else {
+                            var y_ = y + 1;
+                            star.attr('class', $('#' + x + '_' + y_).attr('class'));
+                            cleanY(y_, x);
+                        }
+                    } else {
+                        for (x = 0; x < 10; x ++) {
+                            cleanY(y, x);
+                        }
+                    }
+                }
+                var cleanX = function(x, y) {
+                    var star = $('#' + x + '_' + y);
+                    if (x == 0) {
+                        star.attr('class', 'star cleaned');
+                    } else {
+                        var x_ = x - 1;
+                        star.attr('class', $('#' + x_ + '_' + y).attr('class'));
+                        (!star.hasClass('cleaned')) && cleanX(x_, y);
+                    }
+                }
+                $('#btn').click(function() {
+                    if (blnIE) {
+                        alert('Sorry, 暂不支持IE浏览器!');
+                    } else if (!blnPlaying) {
+                        if (confirm('游戏已结束, 再玩一次?')) {
+                            init();
+                        }
+                    } else if (confirm('确定结束计算总分吗? 点确定游戏将结束!')) {
+                        blnPlaying = false;
+                        $(this).hide();
+                        var intLeft = 100 - $('.cleaned').length;
+                        if (intLeft < 20) {
+                            intLeft = 20 - intLeft;
+                            intLeft = intLeft * intLeft * 5;
+                        } else {
+                            intLeft = 0;
+                        }
+                        intCnt += intLeft;
+                        $('#msg').html('最后得分: ' + intCnt);
+                        if (confirm('游戏结束, 您的得分是: ' + intCnt + ' ! 再玩一次?')) {
+                            init();
+                        }
+                    }
+                });
+                function init() {
+                    intCnt = 0;
+                    blnPlaying = true;
+                    $('#msg').html('');
+                    $('.star').remove();
+                    $('#btn').show();
+                    for (var i = 0; i < 10; i ++) {
+                        for (var j = 0; j < 10; j ++) {
+                            $('#main').append('<div class="star c' + parseInt(Math.random() * 5) + '" id="' + i + '_' + j + '"></div>');
+                        }
+                    }
+                    $('.star').bind('click', function() {
+                        var _this = $(this);
+                        if (blnIE) {
+                            alert('Sorry, 暂不支持IE浏览器!');
+                            return false;
+                        } else if (!blnPlaying) {
+                            if (confirm('游戏已结束, 再玩一次?')) {
+                                init();
+                            }
+                            return false;
+                        } else if (_this.hasClass('cleaned')) {
+                            return false;
+                        }
+                        if (_this.hasClass('clicked')) {
+                            var intLen = $('.clicked').length;
+                            $('.clicked').each(function() {
+                                var arrId = $(this).removeClass('clicked').addClass('cleaned').attr('id').split('_');
+                                cleanX(arrId[0], arrId[1]);
+                            });
+                            for (var y = 9; y >= 0; y --) {
+                                ($('#9_' + y).hasClass('cleaned')) && cleanY(y, -1);
+                            }
+                            intLen = intLen * intLen * 5;
+                            intCnt += intLen;
+                            $('#msg').html('当前得分: ' + intCnt);
+                        } else {
+                            _this.addClass('clicked').siblings().each(function() {
+                                ($(this).hasClass('clicked')) && $(this).removeClass('clicked');
+                            });
+                            var arrId = _this.attr('id').split('_');
+                            getMore(arrId[0], arrId[1], _this.attr('class').replace('star', '').replace('clicked', '').trim());
+                            ($('.clicked').length < 2) && $('.clicked').removeClass('clicked');
+                        }
+                    });
+                }
+                init();
+            });
+        </script>
+    </head>
+    <body>
+        <div id="main"></div>
+        <div id="msg"></div>
+        <button id="btn">结束算总分</button>
+    </body>
+</html>
