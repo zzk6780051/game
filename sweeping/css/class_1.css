@@ -1,0 +1,116 @@
+#id-div-gameBody {
+    position: relative;
+    width: 40%;
+    height: 25%;
+    margin: 0 auto;
+    border: 1px solid #27cdf0;
+    margin-top: 5%;
+    border-radius: 2%;
+    box-shadow: 4px 4px 8px #888;
+}
+
+#id-div-showBar {
+    height:50px;
+    display: flex;
+    border-bottom: 1px solid #97b0f6;
+}
+
+.item{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.item:nth-child(2){
+    flex: 0.4
+}
+
+.item + .item {
+    border-left: 1px solid #97b0f6;
+}
+
+.item img{
+    width: 30%;
+}
+
+#id-div-container {
+    position: relative;
+    width: 452px;
+    height: 450px;
+    border: 1px solid #97b0f6;
+    margin: 0 auto;
+    margin-top: 7%;
+}
+
+.line {
+    box-sizing: border-box;
+    height: 30px;
+    border: 1px solid #97b0f6;
+}
+
+.single {
+    text-align: center;
+    box-sizing: border-box;
+    display: inline-block;
+    float: left;
+    width: 30px;
+    height: 30px;
+    margin:0;
+    padding-top: 5px;
+}
+
+.single + .single{
+    border-left: 1px solid #97b0f6;
+}
+
+.single > span {
+    width: 100%;
+    height: 100%;
+}
+
+.single img{
+    width: 70%;
+}
+
+.single img{
+    width: 100%;
+    position: relative;
+    bottom:5px;
+}
+
+.mark{
+    background-color: crimson;
+    border: 1px solid #27cdf0;
+}
+
+.single:hover{
+    background: #cdf;
+    border-bottom: 1px solid #97b0f6;
+}
+
+.hide {
+    display: none;
+}
+
+.buttons{
+    position: relative;
+    margin-top: 5%;
+}
+
+button{
+    display: block;
+    width: 120px;
+    height: 30px;
+    border-radius: 7px;
+    border: none;
+    background: #2196F3;
+    color: white;
+    font-size: 19px;
+    box-shadow: 2px 2px 1px #888;
+    margin: 10px auto;
+}
+
+button:hover{
+    background: #2186F3;
+}

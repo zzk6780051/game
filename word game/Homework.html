@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.3/css/all.css" rel="stylesheet">-->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.6.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="stlye.css">
+    <title>Game</title>
+</head>
+<body>
+    <button id="settings-btn" class="settings-btn">
+        <i class="fas fa-cog"></i>
+    </button>
+    <div id="settings" class="settings">
+        <form id="settings-form">
+            <div>
+                <label for="difficulty">难度</label>
+                <select id="difficulty">
+                    <option value="easy">简单</option>
+                    <option value="medium">一般</option>
+                    <option value="hard">困难</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        <h2>🥲打字游戏🥲</h2>
+        <small>请输入</small>
+        <h1 id="word"></h1>
+        <input type="text" id="text" autocomplete="off" placeholder="请在这里输入...">
+        <p class="time-container">
+         剩余时间:<span id="time">10s</span>
+        </p>
+        <p class="score-container">
+            分数:<span id="score">0</span>
+        </p>
+        <div id="end-game-container" class="end-game-container"></div>
+    </div>
+    <script  src="script.js"></script>
+</body>
+</html>
