@@ -16,8 +16,13 @@
         </a>
     </td>
     <td valign="top">
-        <a target="_blank" href="https://zzk6780051.github.io/love/Web/003">
-            <p align="center">003</p>
+        <a target="_blank" href="https://zzk6780051.github.io/game/double watermelon balls">
+            <p align="center">双人西瓜球</p>
+        </a>
+    </td>
+    <td valign="top">
+     <a target="_blank" href="https://zzk6780051.github.io/game/destroy the grid">
+            <p align="center">消消乐</p>
         </a>
     </td>
     </tr>
