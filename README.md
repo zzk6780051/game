@@ -11,7 +11,7 @@
         </a>
     </td>
     <td valign="top">
-        <a target="_blank" href="https://zzk6780051.github.io/love/Web/002">
+        <a target="_blank" href="https://zzk6780051.github.io/game/look at the number">
             <p align="center">002</p>
         </a>
     </td>
