@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<!--
+　┐ ├┬─┐ ┌──┼┼┐
+　│ ││　 ┌──┼┼┐
+│╯├─┐ ╭──┴╯			W
+└╯│    ┌────┐			Z
+　│　├─┐ ├────┤			H
+　╰┘└　 └────╯
+Copyleft by wzh 2020~2022
+允许非商业用途的阅读、使用、复制、分发代码，
+修改借鉴代码和派生作品请先告知作者，
+欢迎为代码的完善和新的功能提出建议或想法。
+-->
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8" />
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+		<title>我的世界</title>
+		
+		<!--icon-->
+		<link href="https://pic.imgdb.cn/item/6301e20f16f2c2beb152e797.png" rel="icon" type="image/x-icon"/>
+		
+		<!-- 异步fonts加载 -->
+		<script src="./js/modules/webfontloader.js"></script>
+		<script>
+		if (typeof require != "undefined"){ //electron
+			console.log("electron")
+			document.write(`<link href="./css/fonts.css" rel="stylesheet" type="text/css" />`);
+			window.onload = function(){
+				console.log("onload")
+				$("body").addClass("wf-active");
+			};
+		}else{
+			WebFont.load({
+				google: {
+					families: ["kt", "st", "xs", "zyyt"],
+					api: "./css/fonts.css"
+				}
+			});
+		}
+		</script>
+		
+		<link href="./css/bootstrap.css" rel="stylesheet" type="text/css" />
+		<style>
+			/* 字体缩放方案 */
+			@media screen and (max-width:320px){
+				body {font-size: calc(0.018 * 320px + 6px);}
+			}
+			body{
+				font-size: calc(1.8vw + 6px);
+			}
+			@media screen and (min-width: 960px){
+				body {font-size: calc(0.018 * 960px + 6px);}
+			}
+			
+			/* 选择 */
+			::selection{
+				color: #1f122d;
+				background: #dfecd2;
+			}
+			*{
+				/* 禁止复制选中 */
+				-webkit-touch-callout: none; /* iOS Safari */
+				-webkit-user-select: none; /* Chrome/Safari/Opera */
+				-khtml-user-select: none; /* Konqueror */
+				-moz-user-select: none; /* Firefox */
+				-ms-user-select: none; /* Internet Explorer/Edge */
+				user-select: none; /* Non-prefixed version, currently not supported by any browser */
+				/* 无点击线 */
+				outline: none;
+			}
+			
+			/* dat.gui */
+			.cr.function > div > span.property-name{
+				width: 100%;
+			}
+			.dg.ac{
+				z-index: 1 !important;
+			}
+			
+			/* 隐藏body窗口区域滚动条 */
+			body{
+				margin: 0;
+				overflow: hidden;
+			}
+			
+			/* 列表 */
+			ul, ol{
+				display: inline-block;
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+			}
+			ul > li, ol > li{
+				display: inline-block;
+			}
+			.dg ul, .dg ol,
+			.dg ul > li, .dg ol > li{
+				display: block;
+			}
+			
+			/* 按钮 */
+			button{
+				vertical-align: middle;
+				border: 0.2vmax solid #ced4da;
+				border-radius: 1vmax;
+				font-size: 0.6em;
+				font-weight: 400;
+				color: #212529;
+				background-color: #fff;
+				transition: color 0.3s, background-color 0.3s, border-color 0.3s;
+			}
+			button[disabled]{
+				color: #a2b5c8;
+			}
+			button[disabled]:hover{
+				color: #fff;
+				border-color: #a2b5c8;
+				background-color: #a2b5c8;
+				text-decoration: none;
+			}
+			button[disabled]:focus{
+				outline: 0;
+				box-shadow: 0 0 0 0.6vmax rgba(162, 181, 200, .25);
+			}
+			
+			button.success:not([disabled]):hover{
+				color: #fff;
+				border-color: #007bff;
+				background-color: #007bff;
+				text-decoration: none;
+			}
+			button.success:not([disabled]):focus{
+				outline: 0;
+				box-shadow: 0 0 0 0.6vmax rgba(0, 123, 255, .25);
+			}
+			
+			button.info:not([disabled]):hover{
+				color: #fff;
+				border-color: #46b8da;
+				background-color: #5bc0de;
+				text-decoration: none;
+			}
+			button.info:not([disabled]):focus{
+				outline: 0;
+				box-shadow: 0 0 0 0.6vmax rgba(91, 192, 222, .25);
+			}
+			
+			button.warn:not([disabled]):hover{
+				color: #fff;
+				border-color: #eea236;
+				background-color: #f0ad4e;
+				text-decoration: none;
+			}
+			button.warn:not([disabled]):focus{
+				outline: 0;
+				box-shadow: 0 0 0 0.6vmax rgba(240, 173, 78, .25);
+			}
+			
+			button.danger:not([disabled]):hover{
+				color: #fff;
+				border-color: #d43f3a;
+				background-color: #d9534f;
+				text-decoration: none;
+			}
+			button.danger:not([disabled]):focus{
+				outline: 0;
+				box-shadow: 0 0 0 0.6vmax rgba(217, 83, 79, .25);
+			}
+			
+			/* 遮罩层 */
+			layer{
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+				
+				text-align: center;
+				font-weight: bold;
+				color: #fff;
+				background-color: #fffae8;
+				
+				text-shadow:
+					0 0 10px rgba(255,0,0, .4),
+					0 0 20px rgba(0,0,255, .5),
+					0 0 30px rgba(255,255,0, .7),
+					
+					0 0 10px rgba(255,0,0, .4),
+					0 0 20px rgba(0,0,255, .5),
+					0 0 30px rgba(255,255,0, .7),
+					
+					0 0 10px rgba(255,0,0, .4),
+					0 0 20px rgba(0,0,255, .5),
+					0 0 30px rgba(255,255,0, .7);
+			}
+			layer::after{
+				content: "Copyleft by wzh 2020~2021";
+				/* white-space: pre; */
+				font-size: 0.2em;
+				
+				position: absolute;
+				bottom: 6vh;
+				left: 50%;
+				transform: translateX(-50%);
+				
+				text-shadow: 1px 0px 0px #666, /*右*/
+					-1px 0px 0px #aaa, /*左*/
+					0px 1px 0px #aaa, /*上*/
+					0px -1px 0px #666; /*下*/
+			}
+			
+			/* 多行文本框 */
+			textarea{
+				resize: none;
+			}
+			
+			/* canvas */
+			#game{
+				position: absolute;
+				left: 0;
+				top: 0;
+				height: 100% !important;
+				width: 100% !important;
+				z-index: -1;
+			}
+			
+			
+			
+			/* ------------------I'm 分割线--------------- */
+			
+			
+			
+			/**
+			* 0:物品栏
+			*/
+			#tools{
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				transform: translateX(-50%);
+				margin: 0;
+				padding: 0;
+				/*width: 36vw;
+				height: 6vw;*/
+			}
+			#tools > li{
+				width: 5vw;
+				height: 5vw;
+				display: inline-block;
+				/* margin: 0 -2px; */
+				margin: 0;
+				border: 0.5vw groove #fffae8;
+			}
+			#tools > li.checked{ /* 选中 */
+				border: 0.6vw groove #dae6cd;
+				transform: translateY(-0.3vw);
+			}
+			#tools > li > img{
+				width: 100%;
+				height: 100%;
+			}
+			
+			
+			/**
+			* 0:顶部工具栏
+			*/
+			#topTools{
+				position: absolute;
+				top: 0;
+				left: 50%;
+				transform: translateX(-50%);
+				margin: 0;
+				padding: 0;
+			}
+			#topTools > li{
+				display: block;
+			}
+			#topTools > li:nth-child(1){ /* 暂停按钮 */
+				padding: 0.26rem;
+				opacity: 0.6;
+				background-color: #83af9b;
+			}
+			#topTools > li:nth-child(1) > div{
+				width: 0.6rem;
+				height: 0.6rem;
+				padding: 0;
+				background-color: #83af9b;
+				box-sizing: border-box;
+				
+				border-style: double;
+				border-width: 0px 0px 0px 0.6rem;
+				border-color: #233067;
+			}
+			
+			
+			/**
+			* 0:十字准星
+			*/
+			#pointer{
+				position: absolute;
+				width: 3.75vmax;
+				height: 3.75vmax;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%,-50%);
+				/* cursor: none; */
+			}
+			#pointer > div{
+				position: absolute;
+				background-color: rgba(255, 255, 255, 0.666666);
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%,-50%);
+			}
+			#pointer > div:first-child{
+				width: 0.25vmax;
+				height: 3.75vmax;
+			}
+			#pointer > div:last-child{
+				width: 3.75vmax;
+				height: 0.25vmax;
+			}
+			
+			
+			/**
+			* 0:摇杆操纵
+			*/
+			#control{
+				position: absolute;
+				bottom: 16vh;
+				left: 10vw;
+				background: #aaa;
+				opacity: 0.66;
+				width: 8vmax;
+				height: 8vmax;
+				border-radius: 50%;
+			}
+			#jump{
+				position: absolute;
+				bottom: 16vh;
+				right: 10vw;
+				background: #aaa;
+				opacity: 0.66;
+				width: 6vmax;
+				height: 6vmax;
+				border-radius: 50%;
+			}
+			
+			
+			/**
+			* 1:命令方块
+			*/
+			#command{
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				
+				display: none;
+				width: 80vw;
+				/* height: 80vh; */
+				padding: 1.6vw;
+				
+				background-color: #fffae8;
+				box-shadow: 0 0 10px rgba(0, 0, 0, .4),
+							0 0 20px rgba(0, 0, 0, .4),
+							0 0 30px rgba(0, 0, 0, .4);
+			}
+			#command > textarea{
+				width: calc(100% - 1.68vw);
+				height: 66vh;
+				
+				color: black;
+				background-color: #fffae8;
+				border: 0.2rem #876 solid;
+				font-size: 1em;
+			}
+			#command > span{
+				font-size: 0.5em;
+			}
+			#command > button{
+				width: 48%;
+				height: 9%;
+				margin: 0 0.6%;
+				font-size: 1.4em;
+			}
+			
+			
+			/**
+			* 1:背包
+			*/
+			#bag{
+				position: absolute;
+				left: 50%;
+				top: 46%;
+				transform: translate(-50%, -50%);
+				width: 80vw;
+				padding: 0;
+				
+				flex-direction: column;
+				/* overflow-y: auto; */
+				/* top: 45%; */
+				
+			}
+			
+			/* 导航栏 */
+			#bag > nav{
+				display: flex;
+				justify-content: center;
+				
+				width: 100%;
+			}
+			
+			/* 导航栏项目 */
+			#bag > nav > label{
+				width: 33%;
+				height: 6vh;
+				margin: 0 0.3vw;
+				
+				color: #876;
+				background-color: #fffae8;
+				border: 0.2rem outset #876;
+				border-top-left-radius: 2.6vw;
+				border-top-right-radius: 2.6vw;
+				
+				text-align: center;
+				font-size: 1.2em;
+				line-height: 6vh;
+			}
+			#bag > nav > label:not([onclick]):hover{ /* 悬停加深颜色 */
+				background-color: #ccd8c1;
+			}
+			#bag > nav > label.checked{ /* 被选中 */
+				color: #876 !important;
+				background-color: #e0edd3 !important;
+				border: 0.2rem outset #876 !important;
+			}
+			
+			/* “关闭”按钮 */
+			#bag > nav > label[onclick]{
+				width: 6vh;
+				flex: none;
+				
+				color: #876;
+				background-color: #fffae8;
+				border: 0.2rem solid #876;
+				border-radius: 666px;
+				
+				font-size: 0.86em;
+				font-weight: 900;
+			}
+			#bag > nav > label[onclick]:hover{
+				color: #876;
+				background-color: #ccd8c1;
+				border: 0.2rem solid #876;
+			}
+			
+			/* section */
+			#bag > section{
+				height: 100%;
+				
+				background-color: #fffae8;
+				border: 0.5vmax #fff outset;
+			}
+			#bag > section.checked{ /* 选择的section显示 */
+				display: flex;
+			}
+			#bag > section:not(.checked){ /* 未选择的section隐藏 */
+				display: none;
+			}
+			#bag > section.checked{ /* 选择的section显示 */
+				display: flex;
+			}
+			
+			/* section1:背包 */
+			#bag > section:nth-of-type(1) > #bag_deskgood{ /* deskgood旋转动画 */
+				margin: 1vmax;
+				border: 0.5vmax inset #fffae8;
+			}
+			#bag > section:nth-of-type(1) > ul{ /* 背包物品栏列表 */
+				display: inline-flex;
+				flex-direction: column;
+				justify-content: space-around;
+				margin: 1vw;
+				padding: 0;
+			}
+			#bag > section:nth-of-type(1) > ul > li{ /* 背包物品栏 */
+				display: block;
+				font-size: 1.2em;
+			}
+			#bag > section:nth-of-type(1) > ul > li > ol{ /* 背包物品栏图片项目列表 */
+				display: inline-flex;
+				margin: 0;
+				padding: 0;
+			}
+			#bag > section:nth-of-type(1) > ul > li > ol > li{ /* 背包物品图片项目 */
+				display: block;
+				width: 6vmax;
+				height: 6vmax;
+				margin: 0;
+				border: 0.3vmax inset #a6917c; /* 未选中 */
+			}
+			#bag > section:nth-of-type(1) > ul > li > ol > li:hover{ /* 悬停背景 */
+				background-color: #e0edd3;
+			}
+			#bag > section:nth-of-type(1) > ul > li > ol > li.checked{ /* 选中 */
+				border: 0.5vmax inset #876;
+			}
+			#bag > section:nth-of-type(1) > ul > li > ol > li > img{ /* 背包物品图片 */
+				width: 100%;
+				height: 100%;
+			}
+			
+			
+			/**
+			* 1:暂停遮罩
+			*/
+			#pause{
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				height: 94vh;
+				background-image: radial-gradient(#c5effd, #e0edd3, #77b5fe);
+				
+				opacity: 0.6;
+				padding-top: 6vh;
+				font-size: 1.2em;
+			}
+			#pause > h1{
+				margin: 0;
+			}
+			#pause > p{
+				font-size: 1.6em;
+				margin: 6vmax 0;
+			}
+			#pause > button{
+				width: 60vw;
+				/* height: 10vh; */
+				padding: 1.6vw;
+				font-size: 0.9em;
+				margin: 3vmax auto;
+			}
+			#pause > button:last-of-type{
+				margin-bottom: 10vw;
+			}
+			
+			
+			/**
+			* 1:设置
+			*/
+			#settings{
+				background-color: #fffae8;
+				background-image: none; /* 清除渐变颜色 */
+				padding-top: 6vh;
+				height: 94vh;
+				overflow: auto;
+			}
+			#settings > button{
+				width: 60vw;
+				/* height: 10vh; */
+				padding: 1vw;
+				font-size: 1em;
+				margin: 3vmax auto;
+			}
+			#settings > div{
+				/* width: 100%; */
+				padding: 3vw;
+			}
+			#settings > div > fieldset{
+				display: inline-block;
+				/* width: 100%; */
+			}
+			#settings > div > fieldset button{
+				width: 100%;
+				/* height: 6vh; */
+				margin: 0.6vw;
+				padding: 0.6vw;
+			}
+			/* 横屏情况下 */
+			@media screen and (orientation:landscape){
+				#settings > div{
+					display: grid; /* 网格布局 */
+					grid-template-columns: 50% 50%;
+					grid-gap: 1vw 1vw; /* 行列间距 */
+				}
+			}
+			
+			
+			/**
+			* 2:打印信息
+			*/
+			#printOutput{
+				position: absolute;
+				top: 16vh;
+				left: 0;
+				max-width: 20vw;
+				max-width: calc(16vw + 36px);
+				max-height: 84vh;
+				font-size: 0.8em;
+				overflow-y: hidden;
+			}
+			#printOutput > li{
+				display: block;
+				background-color: white;
+				opacity: 0.5;
+			}
+			
+			
+			/**
+			* 3:进度条
+			*/
+			#progress{
+				font-size: 1.2em;
+				padding-top: 12.6vh;
+				height: 87.4vh;
+				
+				/* animation-name: backgroundColor;
+				animation-duration: 1s;
+				animation-iteration-count: infinite; */
+				background-image: url(https://pic.imgdb.cn/item/6301e1f116f2c2beb152d805.png);
+			}
+			/* @keyframes backgroundColor{
+				0%{
+					background-image: radial-gradient(#333, #112, #011);
+				}
+				25%{
+					background-image: radial-gradient(#555, #223, #122);
+				}
+				50%{
+					background-image: radial-gradient(#666, #334, #233);
+				}
+				75%{
+					background-image: radial-gradient(#888, #445, #344);
+				}
+				100%{
+					background-image: radial-gradient(#999, #556, #455);
+				}
+			} */
+			#progress > h1{
+				margin: 1vw;
+				font-size: 1.2em;
+			}
+			#progress > progress{
+				background-color: red;
+				width: 63vw;
+			}
+			#progress > progress::-webkit-progress-bar{
+				background-color: gray;
+				background-image: linear-gradient(45deg, black, gray, #aaa);
+			}
+			#progress > progress::-webkit-progress-value{
+				background-color: green;
+				background-image: repeating-linear-gradient(
+					135deg,
+					red 0vw,
+					orange 9vw,
+					yellow 18vw,
+					green 27vw,
+					blue 36vw,
+					indigo 45vw,
+					purple 54vw
+				);
+			}
+			
+			
+			/**
+			* 4:竖屏警告
+			*/
+			#warning{
+				background-image: none;
+				background-color: #fffae8;;
+				
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				
+				padding-bottom: 16.6vh;
+				height: 83.4vh;
+			}
+			#warning > span{
+				flex: none;
+				font-size: 2.8em;
+			}
+			#warning > button{
+				width: 80%;
+				/* height: 60px; */
+				position: relative;
+				top: 6vh;
+				margin: 0 auto;
+				font-size: 2.3em;
+			}
+			/* 电脑隐藏 */
+			@media not screen and (orientation:portrait){
+				#warning{
+					display: none;
+				}
+			}
+			
+			
+			/**
+			* 5:死亡通知书
+			*/
+			#die{
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				
+				height: 94vh;
+				padding-top: 6vh;
+				
+				background-image: none;
+				background-color: rgba(254, 67, 101, .36);
+				font-size: 1.2em;
+			}
+			#die small{
+				display: block;
+				font-size: 0.36em;
+				margin: 0;
+			}
+			#die > h1{
+				font-size: 1.6em;
+				flex-grow: 0;
+			}
+			#die > p{
+				margin: 0;
+				flex-grow: 0;
+			}
+			#die > button{
+				width: 66vw;
+				font-size: 1.2em;
+				margin: 1vw auto;
+				flex-grow: 0;
+				/*font-family: hwxk, serif;*/
+			}
+			.#die > div{
+				flex-grow: 16;
+			}
+			/*#die > .resaon{
+				font-family: zyyt, serif;
+			}*/
+			
+			
+			/**
+			* 6:message
+			*/
+			@keyframes messageIn{
+				from {
+					right: 0;
+					transform: translateX(100%);
+					opacity: 0;
+				}
+				to {
+					right: 1vw;
+					transform: translateX(0);
+					opacity: 1;
+				}
+			}
+			@keyframes messageOut{
+				from {
+					bottom: 16vh;
+					right: 1vw;
+					transform: translateY(0%);
+					opacity: 1;
+				}
+				to {
+					bottom: 0;
+					right: 1vw;
+					transform: translateY(100%);
+					opacity: 0;
+				}
+			}
+			message{
+				display: block;
+				position: absolute;
+				bottom: 16vh;
+				max-width: 36vw;
+				
+				font-size: 1em;
+				background-color: #fffae8;
+				
+				padding: 1vmax;
+				border: 0.6vmax double #ede0d3;
+				border-radius: 1vmax;
+				
+				z-index: 6;
+			}
+			message[open]{
+				right: 1vw;
+				
+				animation: 3s messageIn;
+			}
+			message:not([open]){
+				bottom: 0;
+				right: 1vw;
+				transform: translateX(100%) translateY(100%);
+				opacity: 0;
+				
+				animation: 3s messageOut;
+			}
+		</style>
+		
+		<!-- jquery -->
+		<script src="./js/modules/jquery.min.js"></script>
+		<script>
+		let ipcRenderer;
+		if (typeof require != "undefined"){ //electron
+			window.$ = window.jQuery = require("./js/modules/jquery.min.js");
+			ipcRenderer = require('electron').ipcRenderer;
+		}
+		</script>
+		
+		<!-- 流量统计 -->
+		<script src="https://wzh656.github.io/MinecraftWeb/js/modules/count.js" async></script>
+		<script>
+		var _hmt = _hmt || [];
+		(function() {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?c6b8f0ad7ec671e54d83e86a67280999";
+			var s = document.getElementsByTagName("script")[0]; 
+			s.parentNode.insertBefore(hm, s);
+		})();
+		</script>
+		
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-FFD7GVHXJB"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+			
+		gtag('config', 'G-FFD7GVHXJB');
+		</script>
+		
+		<!-- 调试工具 -->
+		<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+		<script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
+		<script>
+		const DEBUG = localStorage.getItem("我的世界_debug")=="0"? false: true;
+		//const DEBUG = false;
+		if (DEBUG &&
+			/ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test( navigator.userAgent.toLowerCase() )
+		){ //手机
+			eruda.init();
+			new VConsole();
+		}
+		</script>
+		
+		<script src="./js/modules/three.min.js"></script> <!-- three.js -->
+		<script src="./js/modules/OrbitControls.js"></script> <!-- bag deskgood 相机控制 -->
+		<script src="./js/modules/DeviceOrientationControls.js"></script> <!-- 陀螺仪相机控制 -->
+		<script src="./js/modules/simplex-noise.js"></script> <!-- 柏林噪声 -->
+		<script src="./js/modules/dat.gui.min.js"></script> <!-- dat.gui -->
+		<script src="./js/modules/stats.min.js"></script> <!-- stats.js -->
+		
+		<script src="./js/modules/js_plus.min.js"></script> <!-- js+ -->
+    	<script src="https://wzh656.github.io/MinecraftWeb/js/modules/dynamic.js" async></script> <!-- dynamic -->
+		
+	</head>
+	
+	<body bgcolor="black">
+		
+		<!-- 0:工具栏 -->
+		<ul id="tools">
+			<li><img/></li>
+			<li><img/></li>
+			<li><img/></li>
+			<li><img/></li>
+			<li><img src="https://pic.imgdb.cn/item/6301e23c16f2c2beb152fe0d.png" onclick="status('bag');" /></li>
+		</ul>
+		
+		<!-- 0:顶部工具栏 -->
+		<ul id="topTools">
+			<li class="pause"><div></div></li> <!-- 暂停 -->
+		</ul>
+		
+		<!-- 0:十字准星 -->
+		<div id="pointer" style="display: none;">
+			<div></div>
+			<div></div>
+		</div>
+		
+		<!-- 0:摇杆操作 -->
+		<div>
+			<div id="control" style="display: none;"></div>
+			<div id="jump" style="display: none;"></div>
+		</div>
+		
+		<!-- 1:命令方块 -->
+		<section id="command" style="z-index: 1;">
+			<textarea>
+print("hello,world!");
+print("hello,world!", "helloworld", 10, "#ff0");
+deskgood.move(0, 100*100, 0);
+deskgood.hold.addOne( new Block({ name: "命令方块" }) );
+status("command");</textarea>
+			<span>运行代码即表示同意《免责协议》：输入代码产生的一切后果由玩家自行承担</span><br/>
+			<button onclick="status('command');" class="warn">关闭</button>
+			<button onclick="run($('#command > textarea').val());" class="success">运行</button>
+		</section>
+		
+		<!-- 1:背包 -->
+		<section id="bag" data-display="flex" style="z-index: 1; display: none;">
+			<nav>
+				<label class="checked">物品</label>
+				<label>状态</label>
+				<label>智造</label>
+				<label onclick="status('bag');">╳</label>
+			</nav>
+			<section class="checked">
+				<ul>
+					<li>
+						头(Head)：
+						<ol class="head">
+							<li class="checked"><img/></li>
+						</ol>
+					</li>
+					<li>
+						身(Body)：
+						<ol class="body">
+							<li class="checked"><img/></li>
+						</ol>
+					</li>
+					<li>
+						腿(leg)：
+						<ol class="leg">
+							<li class="checked"><img/></li>
+						</ol>
+					</li>
+					<li>
+						脚(foot)：
+						<ol class="foot">
+							<li class="checked"><img/></li>
+						</ol>
+					</li>
+				</ul>
+			</section>
+			<section>
+				“状态”功能待开发中……
+			</section>
+			<section>
+				“制造”功能待开发中……
+			</section>
+			<script>
+				for (const [i,v] of Object.entries($("#bag > nav > label:not([onclick])")))
+					v.onclick = function(){
+						$(this).addClass("checked").siblings().removeClass("checked");
+						$("#bag > section:eq("+i+")").addClass("checked").siblings().removeClass("checked");
+					};
+			</script>
+		</section>
+		
+		<!-- 1:遮罩 -->
+		<layer id="pause" style="z-index: 1;">
+			<h1>已暂停</h1>
+			<button class="next success">继续游戏</button>
+			<button class="reload info">重新加载</button>
+			<button class="set info">设置</button>
+		</layer>
+		
+		<!-- 1:设置 -->
+		<layer id="settings" style="z-index: 1; display: none;">
+			<h1>设置</h1>
+			<div>
+				<fieldset class="operation">
+					<legend>操作</legend>
+					<p><label>灵敏度：</label><input type="range" class="sensitivity" /></p>
+				</fieldset>
+				<fieldset class="debug">
+					<legend>调试模式</legend>
+					<p><button class="total">调试模式：开</button></p>
+				</fieldset>
+			</div>
+			<button class="back success">返回</button>
+		</layer>
+		
+		<!-- 2:print output -->
+		<ol id="printOutput" style="z-index: 2;"></ol>
+		
+		<!-- 3:进度条 -->
+		<layer id="progress" style="z-index: 3;">
+			<h1>贴图加载中……</h1>
+			进度：<progress></progress>
+			<span>0</span>%<br/>
+			<b>若初次加载失败，请刷新重试</b>
+		</layer>
+		
+		<!-- 4:竖屏警告 -->
+		<layer id="warning" style="z-index: 4;">
+			<span>推荐使用横屏运行（请启用浏览器横屏或）</span>
+			<button onclick="$(this).parent().remove();" class="success" >继续竖屏</button>
+			<button onclick="location.href='https://wzh656.github.io/MinecraftWeb/';" class="info" >下载APK</button>
+		</layer>
+		
+		<!-- 5:死亡通知书 -->
+		<layer id="die" style="z-index: 5; display: none;">
+			<h1>游戏结束！<small>GAME OVER</small></h1>
+			<p>角色deskgood死亡（正在播放：凉凉）</p>
+			<p>死因：<span class="resaon">未知</span></p>
+			<p>注：生命诚可贵，生命只有一次，请珍爱生命，deskgood无法重生，游戏即将关闭</p>
+			<button onclick="exit();">结束<small>OVER</small></button>
+			<div></div>
+		</layer>
+		
+		<!-- 6:message -->
+		
+		<!-- bgm -->
+		<audio id="bgm" preload loop style="display: none;" src="./music/1.m4a" ></audio>
+		<!--<audio id="bgm" autoplay perload loop style="display: none;" src="https://vdse.bdstatic.com/876934f28995e8042230ec598237c67e.mp4?authorization=bce-auth-v1/fb297a5cc0fb434c971b8fa103e8dd7b/2017-05-11T09:02:31Z/-1//ab5b458a478fae53b754e194ab270b96f23aa23ba71c2e63b06fc06d0543040c"></audio>-->
+		
+		<!-- 7:不支持js -->
+		<noscript><layer style="z-index: 7;">你的浏览器不支持JavaScript，无法运行！</layer></noscript>
+		
+		
+<script>
+if (!DEBUG){
+	console.log = console.info = console.warn = console.error = function(){};
+}
+</script>
+<script src="./js/GameTime.js"></script> <!-- 游戏时间 -->
+<script>
+//退出
+function exit(){
+	if (typeof require != "undefined"){ //electron
+		window.close();
+	}
+	
+	window.open("home.html", "_self").close(); //website
+	
+	try{ //html5+
+		plus.runtime.quit();
+	}catch(e){}
+}
+//运行命令方块
+function run(code){
+	try{
+		eval(code);
+	}catch(err){
+		console.error("【命令】\n代码运行出错，错误信息（自行翻译）：\n"+err);
+		alert("代码运行出错，错误信息（自行翻译,可在VConsole查看）：\n"+err);
+		/* $.get("http://fanyi.youdao.com/translate",{
+			doctype: "json",
+			type: "auto",
+			i: err
+		},function(data, state, xhr){
+			console.log(data);
+			try{
+				if (state == "success" & !!data.translateResult[0][0].tgt){
+					console.error("【命令方块】\n代码运行出错，错误信息：\n"+err+"\n译文（有道翻译提供）："+data.translateResult[0][0].tgt);
+					alert("代码运行出错，错误信息（可在VConsole查看）：\n"+err+"\n译文（有道翻译提供）："+data.translateResult[0][0].tgt);
+				}else{
+					console.error("【命令方块】\n代码运行出错，错误信息（自行翻译）：\n"+err);
+					alert("代码运行出错，错误信息（自行翻译,可在VConsole查看）：\n"+err);
+				}
+			}catch(e){
+				console.error("【命令方块】\n代码运行出错，错误信息（自行翻译）：\n"+err);
+				alert("代码运行出错，错误信息（自行翻译,可在VConsole查看）：\n"+err);
+			}
+		}); */
+	}
+}
+
+var stop = true,
+	device = 0, //设备代码
+	perload_condition = 0,
+	time = new GameTime(localStorage.getItem("我的世界_time"), 1);
+
+// 判断手机电脑
+if (/ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test(
+		navigator.userAgent.toLowerCase()
+	)
+){ //手机(-)
+	if ( navigator.userAgent.toLowerCase().indexOf("html5plus") != -1 ){ //html5+
+		device = -2;
+	}else{ //浏览器
+		device = -1;
+	}
+}else{ //电脑(+)
+	if (typeof require != "undefined"){ //electron
+		device = +2;
+	}else{ //浏览器
+		device = +1;
+	}
+}
+console.log("device:", device)
+
+if (device < 0){ //手机
+	$("#control, #jump").css("display", "block"); //显示摇杆
+	
+	$("#pause").css("display", "none");
+	stop = false;
+	if (time.stop) //已暂停
+		time.stopTime(); //继续
+	//继续游戏
+	$("#pause > button:eq(0)").click(function (){
+		$("#pause").css("display", "none");
+		stop = false;
+		if (time.stop) //已暂停
+			time.stopTime(); //继续
+		playBGM();
+	});
+}else{ //电脑
+	$("#pointer").css("display", "block"); //显示指针
+	
+	//请求指针锁定
+	document.body.requestPointerLock =
+		document.body.requestPointerLock ||
+		document.body.mozRequestPointerLock ||
+		document.body.webkitRequestPointerLock;
+	//解除鼠标锁定
+	document.exitPointerLock =
+		document.exitPointerLock ||
+		document.mozExitPointerLock ||
+		document.webkitExitPointerLock;
+	
+	//继续游戏
+	$("#pause > button.next").click(function (){
+		document.body.requestPointerLock(); //请求成功后再继续游戏
+		playBGM();
+	});
+	
+	//输入锁定改变事件
+	const pointerLockChangeEvent = function(){
+		if (typeof stop == "string")
+			return;
+		
+		if ( document.pointerLockElement === document.body ||
+			document.mozPointerLockElement === document.body ||
+			document.webkitPointerLockElement === document.body
+		){ //已锁定 继续
+			console.log("pointerLock yes");
+			stop = false;
+			if (time.stop) //已暂停
+				time.stopTime(); //继续
+			$("#pause").css("display", "none");
+		}else{ //未锁定 暂停
+			console.log("pointerLock no");
+			stop = true;
+			if (!time.stop) //未暂停
+				time.stopTime(); //暂停
+			$("#pause").css("display", "flex");
+			DB.save();
+		}
+	};
+	
+	//输入锁定改变错误
+	const pointerLockErrorEvent = function(){
+		console.error("鼠标锁定错误");
+		// alert("鼠标锁定错误\n请重试 或 关闭重新打开 或 切换/升级浏览器");
+		print("鼠标锁定", "鼠标锁定错误\n请重试 或 关闭重新打开 或 切换/升级浏览器", 3, "#f68");
+		document.body.requestPointerLock();
+	};
+	
+	//添加锁定改变事件
+	document.addEventListener("pointerlockchange", pointerLockChangeEvent, false);
+	document.addEventListener("mozpointerlockchange", pointerLockChangeEvent, false);
+	document.addEventListener("webkitpointerlockchange", pointerLockChangeEvent, false);
+	
+	//添加锁定错误事件
+	document.addEventListener("pointerlockerror", pointerLockErrorEvent, false);
+	document.addEventListener("mozpointerlockerror", pointerLockErrorEvent, false);
+	document.addEventListener("webkitpointerlockerror", pointerLockErrorEvent, false);
+}
+
+//暂停按钮
+$("#topTools > li:eq(0)").click(function(){
+	if (typeof stop == "string"){ //打开窗口
+		const stop0 = stop;
+		state(stop);
+		console.log("StopButton", stop0, "changeTo", stop);
+	}else{ //普通暂停
+		const stop0 = stop;
+		stop = true;
+		DB.save();
+		document.exitPointerLock();
+		$("#pause").css("display", "inline-block");
+		console.log("StopButton", stop0, "changeTo", stop);
+	}
+});
+
+//刷新
+$("#pause > button.reload").click( ()=>location.reload() );
+//设置
+$("#pause > button.set").click(function(){
+	$("#pause").fadeOut("slow");
+	$("#settings").show("slow");
+});
+
+/* 设置 */
+//灵敏度
+$("#settings > div > fieldset.operation input.sensitivity")
+.val( +localStorage.getItem("我的世界_operation_sensitivity") || (device<0? 2.6: 1) )
+.change(function(){
+	deskgood.sensitivity = +this.value;
+	localStorage.setItem("我的世界_operation_sensitivity", this.value);
+});
+//调试模式
+$("#settings > div > fieldset.debug button.total")
+.html(DEBUG? "调试模式：开": "调试模式：关")
+.click(function(){
+	localStorage.setItem("我的世界_debug", "0");
+	location.reload();
+});
+//返回
+$("#settings > button.back").click(function(){
+	$("#settings").hide("slow");
+	$("#pause").fadeIn("slow");
+	document.body.requestPointerLock(); //请求成功后再继续游戏
+});
+
+
+//2维度射线检测
+function ray2D(crosshair, x, y){
+	const raycaster = new THREE.Raycaster(), //光线投射，用于确定鼠标点击位置
+		mouse = new THREE.Vector2(); //创建二维平面
+	mouse.x = crosshair? 2*(x/WIDTH)-1: 0;
+	mouse.y = crosshair? -2*(y/HEIGHT)+1: 0;
+	//console.log("get:", x, y, mouse.x, mouse.y);
+	//以camera为z坐标，确定所点击物体的3D空间位置
+	raycaster.setFromCamera(mouse, camera);
+	//确定所点击位置上的物体数量
+	const objs = raycaster.intersectObjects(scene.children);
+	//选中后进行的操作
+	return objs.filter(obj => obj.faceIndex !== null); //过滤
+}
+//3维度射线检测
+function ray3D(start, end, near, far){
+	if (start.x === undefined) start.x = deskgood.pos.x;
+	if (start.y === undefined) start.y = deskgood.pos.y;
+	if (start.z === undefined) start.z = deskgood.pos.z;
+	if (end.x === undefined) end.x = 0;
+	if (end.y === undefined) end.y = 0;
+	if (end.z === undefined) end.z = 0;
+	
+	const ray = new THREE.Raycaster(
+		new THREE.Vector3(start.x, start.y, start.z),
+		new THREE.Vector3(end.x, end.y, end.z),
+		near,
+		far
+	);
+	ray.camera = camera;
+	const objs = ray.intersectObjects(scene.children);
+	return objs.filter(obj => obj.faceIndex !== null); //过滤
+}
+//屏蔽鼠标右键
+document.oncontextmenu = function (e){
+	var e = e || window.event;
+	e.returnValue = false;
+	return false;
+};
+
+function print(id, text, time=3, color){
+	if (print.prototype.ids[id] == true) return; //已加载
+	print.prototype.ids[id] = true;
+	
+	const msg = $(`<li>${text}</li>`).css("backgroundColor", color);
+	$("#printOutput").append( msg.fadeIn("slow") );
+	setTimeout(()=>{
+		msg.fadeOut("slow", msg.remove);
+		print.prototype.ids[id] = false;
+		
+		$("#printOutput > li[style='display: none;']").remove(); //避免漏掉
+	}, time*1000);
+}
+print.prototype.ids = [];
+
+function message(id, text, time=5){
+	if (message.prototype.ids[id] == true) return; //已加载
+	message.prototype.ids[id] = true;
+	
+	const msg = $(`<message>${text}</message>`)
+		.attr("open", "true")
+		.click(()=>{
+			msg.removeAttr("open").attr("close");
+			message.prototype.ids[id] = false;
+			msg.hide("slow", ()=>{
+				msg.remove();
+				$("message:not(open).close").remove(); //避免漏掉
+			});
+		});
+	$( document.body ).append( msg );
+	setTimeout(()=>{
+		msg.removeAttr("open").attr("close");
+		message.prototype.ids[id] = false;
+		setTimeout(()=>msg.remove(), 3000);
+		
+		$("message:not(open).close").remove(); //避免漏掉
+	}, time*1000);
+}
+message.prototype.ids = [];
+
+function rnd_error(){
+	return Math.random()*0.2+0.9;
+}
+
+
+//录屏
+function record(canvas, time, opt={}){
+	const {fps=30, audioBitsPerSecond=128000, videoBitsPerSecond=8500000} = opt,
+		
+		chunks = new Set(),
+		mediaStream = canvas.captureStream(fps), // 设置帧频率(FPS)
+		mediaRecord = new MediaRecorder(mediaStream, {
+			audioBitsPerSecond,
+			videoBitsPerSecond
+		});
+	
+	mediaRecord.ondataavailable = (e)=>{ // 接收数据
+		chunks.add(e.data);
+		
+		console.log(e.data);
+		const videoBlob = new Blob(chunks, {type: "video/mp4"}),
+			videoUrl = window.URL.createObjectURL(videoBlob);
+		Img.download(videoUrl, "录屏.mp4");
+	};
+	
+	mediaRecord.start(); //开始录屏
+	return ()=>mediaRecord.stop();
+}
+</script>
+		<!-- <script src="./js/sendMessage.js"></script> -->
+		<script src="./js/playBGM.js"></script> <!-- 播放BGM -->
+		
+		<script src="./js/try_load.js"></script> <!-- textures贴图、indexDB存档加载完毕后调用加载区块 -->
+		
+		<!--<script src="./js/SQL.js"></script>
+		<script src="./js/sql_init.js"></script>-->
+		<script src="./js/IndexDB.js"></script> <!-- indexDB模块类 -->
+		<script src="./js/indexDB_init.js"></script> <!-- 初始化indexDB，开始加载存档 -->
+		
+		<script src="./js/stats.js"></script> <!-- stats性能显示模块 -->
+		<script src="./js/dat.gui.js"></script> <!-- dat.gui控制模块 -->
+		
+		<script src="./js/Thing.js"></script> <!-- Thing,Block,EntityBlock,Entity,Tool物品类 -->
+		<script src="./js/template.js"></script> <!-- Thing模板；需置于Thing后 -->
+			
+		<script src="./js/simplexNoise.js"></script> <!-- 初始化柏林噪声simplexNoise函数 -->
+		<script src="./js/Weather.js"></script> <!-- Weather天气类 -->
+		<script src="./js/ChunkMap.js"></script> <!-- ChunkMap区块类 -->
+		<script src="./js/ChunkMap_init.js"></script> <!-- 初始实例化ChunkMap类；需置于ChunkMap后 -->
+		
+		<script src="./js/Img.js"></script> <!-- 图片操作模块 -->
+		<script src="./js/loadTexture.js"></script> <!-- 开始加载贴图；需置于templates,Img后 -->
+		
+		<script src="./js/ColorUpdater.js"></script> <!-- ColorUpdater自动更新颜色类 -->
+		<script src="./js/THREE.js"></script> <!-- 初始化Three.js模块；需置于ColorUpdate,stats后 -->
+		
+		<script src="./js/deskgood.js"></script> <!-- 初始化角色deskgood；需置于ThingGroup后 -->
+		<script src="./js/bagView.js"></script> <!-- 角色deskgood背包旋转视图 -->
+		<script src="./js/changeState.js"></script> <!-- 改变状态 -->
+		
+		<script src="./js/keyEvents.js"></script> <!-- 键盘key事件 -->
+		<script src="./js/mouseEvents.js"></script> <!-- 鼠标mouse事件 -->
+		<script src="./js/touchEvents.js"></script> <!-- 触摸touch事件 -->
+		
+	</body>
+</html>
