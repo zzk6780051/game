@@ -1,0 +1,127 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #faf8ef;
+    font-family: Arial, sans-serif;
+}
+
+.game-container {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    background-color: #bbada0;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.score-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #eee4da;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.grid-container {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(4, 100px);
+    gap: 10px;
+}
+
+.grid-cell {
+    background-color: #cdc1b4;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #776e65;
+}
+
+.grid-cell.number-2 {
+    background-color: #eee4da;
+    color: #776e65;
+}
+
+.grid-cell.number-4 {
+    background-color: #ede0c8;
+    color: #776e65;
+}
+
+.grid-cell.number-8 {
+    background-color: #f2b179;
+    color: #f9f6f2;
+}
+
+.grid-cell.number-16 {
+    background-color: #f59563;
+    color: #f9f6f2;
+}
+
+.grid-cell.number-32 {
+    background-color: #f67c5f;
+    color: #f9f6f2;
+}
+
+.grid-cell.number-64 {
+    background-color: #f65e3b;
+    color: #f9f6f2;
+}
+
+.grid-cell.number-128 {
+    background-color: #edcf72;
+    color: #f9f6f2;
+}
+
+.grid-cell.number-256 {
+    background-color: #edcc61;
+    color: #f9f6f2;
+}
+
+.grid-cell.number-512 {
+    background-color: #edc850;
+    color: #f9f6f2;
+}
+
+.grid-cell.number-1024 {
+    background-color: #edc53f;
+    color: #f9f6f2;
+}
+
+.grid-cell.number-2048 {
+    background-color: #edc22e;
+    color: #f9f6f2;
+}
+
+#restart-button {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: #8f7a66;
+    color: #f9f6f2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#restart-button:hover {
+    background-color: #746655;
+}

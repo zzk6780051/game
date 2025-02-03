@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>找不同</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image:url(https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/02/07/ChMkJ1bKy0yIBNxmADDeunPzSQoAALIowJa_msAMN7S462.jpg);
+            background-size:cover;
+            overflow:hidden;
+        }
+
+        .wrap {
+            margin: auto;
+            width: 450px;
+            height: 450px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .wrap img {
+            width: calc(100%/3);
+            height: calc(100%/3);
+            border: 1px solid white;
+            box-sizing: border-box;
+        }
+        section{
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            color: rgb(179, 189, 189);
+        }
+    </style>
+</head>
+
+<body>
+    
+    <main>
+        <section>
+            <span>游戏倒计时:1:30</span>
+            <em>历史最高:0</em>
+            <i>得分:00</i>
+        </section>
+        <div class="wrap"></div>
+        <button style="opacity: 0;width: 80px;height: 30px">作弊模式</button>
+    </main>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="./countdown.js"></script>
+    <script>
+        // localStorage.clear()
+        function play() {
+            // 是否开启作弊模式
+            let cheat = false;
+            // 被找图片默认位置-横坐标
+            let row=0
+            // 被找图片默认位置-纵坐标
+            let col=0
+            var score = 0;
+            // 默认游戏结束
+            var flag = false;
+            // 倒计时
+            var n = 90;
+            // 默认剪刀手图片索引值为0
+            var index = 0
+            // 默认页面图片数量为3x3
+            var order = 3
+            var picNum = Math.pow(order, 2)
+            var best=localStorage.getItem('bestScore')*1;
+            $('i').html('得分:00')
+            $('em').html('历史最高:'+best)
+            function updatePage(len) {
+                let str = ``;
+                let randomNum = Math.floor(Math.random() * len);
+                index = randomNum;
+                row = Math.floor(index/Math.sqrt(len)) + 1
+                col = index % Math.sqrt(len) + 1
+                if(cheat){
+                    console.log(`所在的位置是：第${row}行，第${col}列`)
+                }
+                for (let i = 0; i < len; i++) {
+                    str += `<img src=${i==randomNum?"./被找.jpeg":"./普通.jpeg"} alt="">`
+                }
+                $('.wrap').html(str);
+            }
+            updatePage(picNum)
+            $('.wrap').on('click', 'img', function () {
+                flag = true;
+                if ($(this).index() == index) {
+                    order++;
+                    score = (order - 3)*10;
+                    let size = (100 / order) + '%'
+                    picNum = Math.pow(order, 2)
+                    updatePage(picNum);
+                    $('img').css({
+                        width: size,
+                        height: size
+                    })
+                }
+            })
+            $('button').on('click',function(){
+                if(cheat){
+                    console.log(`所在的位置是：第${row}行，第${col}列`)
+                }else {
+                    cheat = true
+                }
+            })
+            function count() {
+                if (flag) {
+                    n--;
+                    let min = parseInt(n / 60);
+                    let s = parseInt(n % 60)
+                    s = s >= 10 ? s : '0' + s;
+                    $('span').html('游戏倒计时:' + min + ':' + s);
+                    $('i').html('得分:'+score)
+                    if (!n) {
+                        clearInterval(time);
+                        alert('游戏结束,本次得分为:'+score);
+                        if(score>best) localStorage.setItem('bestScore',score);
+                        var select = +prompt('是否继续游戏 1继续 其他结束');
+                        if (select == 1) {
+                            play();
+                            $('span').html('游戏倒计时:1:30')
+                        }
+                    }
+                }
+            }
+            var time = setInterval(() => {
+                count()
+            }, 1000)
+        }
+        // 初次游戏;
+        play();
+    </script>
+</body>
+
+</html>
