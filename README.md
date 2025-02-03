@@ -11,8 +11,8 @@
         </a>
     </td>
     <td valign="top">
-        <a target="_blank" href="https://zzk6780051.github.io/game/look at the number">
-            <p align="center">002</p>
+        <a target="_blank" href="https://zzk6780051.github.io/game/look at the numbers">
+            <p align="center">数字连连看</p>
         </a>
     </td>
     <td valign="top">
