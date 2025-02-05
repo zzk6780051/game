@@ -2,15 +2,11 @@
     <h1>Game</h1> 
 </div>
 
-# Web
-
 <table align="center">
     <!-- 第一行 -->
-    <tr>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/tetris">
             <p align="center">俄罗斯方块</p>
-    </td>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/word game">
             <p align="center">单词游戏</p
