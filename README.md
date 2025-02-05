@@ -9,20 +9,16 @@
             <p align="center">俄罗斯方块</p>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/word game">
-            <p align="center">单词游戏</p
-        </a>
-    </td>
+            <p align="center">单词游戏</p＞            
+
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/sweeping">
             <p align="center">扫雷</p>
-    </td>
-    </tr>
     <!-- 第二行 -->
     <tr>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/look at the numbers">
             <p align="center">数字连连看</p>
-    </td>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/find different">
             <p align="center">找不同</p>
