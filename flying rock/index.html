@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<link rel="stylesheet" href="css/style.css">
+	<title>Document</title>
+</head>
+<body class="index">
+	
+<div class="wrap">
+	<div class="wall-left"></div>
+	<div class="middle" id="middle">
+		<div class="row" id="row">
+			<div class="angle" id="angle">
+				<div class="circle"></div>
+				<div class="pointer" id="pointer"></div>
+			</div>
+			<div class="player" id="player"></div>
+			<img class="clickTips" src="images/tip.gif" id="clickTips">
+		</div>
+	</div>
+	<div class="wall-right"></div>	
+	<div class="obstacle">
+		<img src="images/obstacle.gif" alt="obstacle">
+	</div>
+	<div class="panel">		
+		<h3>COMBO</h3>
+		<div class="combo">
+			<div class="comboValue" id="comboValue"></div>
+		</div>
+		<div class="score">
+			<h4 title="分数"><span id="showScore">0</span> m</h4>
+		</div>
+	</div>
+	<div class="gameover" id="gameover">
+		<h2>GAME OVER</h2>
+		<h3>你的得分是：<label id="getScore"></label>分</h3>
+		<div class="form">
+			<a href="javascript:void(0)" onclick="window.location.reload()" class="btn btn-again" id="playAgain" style="display: inline-block;text-decoration: none">再玩一次</a>
+		</div>
+	</div>
+</div>
+
+<div class="start" id="startWrap">
+	<div class="container">
+		<h2>飞岩走壁</h2>
+		<img src="images/sprite 63.png" alt="img">
+		<div class="btn-group">
+			<button class="btn btn-submit" id="startGame">开始游戏</button>
+			<button class="btn btn-again" id="descript">游戏说明</button>
+		</div>
+		<div class="descript">
+			<div class="one">
+				<div class="pull-left">
+					<img src="images/descript1.jpg" alt="descript" class="pull-left">
+					<span class="pull-left">当人物跳上悬崖后，就会出现角度控制，及时点击鼠标左键（手机则点击屏幕），选择橙色范围内的角度，让他继续攀登，红色范围内的角度是危险区域。</span>
+				</div>
+				<div class="pull-left">
+					<img src="images/descript2.jpg" alt="descript" class="pull-left">
+					<span class="pull-left">选择正确的角度会获得相应的能量值，能量值满后会触发组合技。</span>
+				</div>
+			</div>
+			<div class="two">
+				<div class="pull-left">
+					<img src="images/tip.gif" alt="descript" class="pull-left">
+					<span class="pull-left">触发组合技会出现提示，人物会在悬崖上跑步，快速点击鼠标左键/屏幕可以让他跑的更快。</span>
+				</div>
+				<div class="pull-left">
+					<img src="images/obstacle.gif" alt="descript" class="pull-left">
+					<span class="pull-left">听到鸡叫的时候就要注意了，别被它撞到。</span>
+				</div>
+			</div>
+			<div class="btn-group">
+				<button class="btn backBtn">返回</button>
+				<button class="btn controle" prev="one" next="two">下一页</button>
+			</div>	
+		</div>
+		<p>Developed a long time ago. @<a href="https://github.com/GHBJayce" target="_blank" style="color: white">GHBJayce</a>.</p>
+	</div>
+</div>
+
+<audio src="music/opening.mp3" autoplay="autoplay" loop="loop" class="openingMusic" style="display:none;"></audio>
+<audio src="music/combo.mp3" loop="loop" class="comboMusic" style="display:none;"></audio>
+<audio src="music/jump.mp3" class="jumpMusic" style="display:none;"></audio>
+<audio src="music/chicken-show.mp3" class="chickenMusic" style="display:none;"></audio>
+<audio src="music/gameover-bgm.mp3" loop="loop" class="gameoverBgmMusic" style="display:none;"></audio>
+<audio src="music/gameover-player.mp3" class="gameoverPlayerMusic" style="display:none;"></audio>
+<audio src="music/gamestart.mp3" loop="loop" class="gamestartMusic" style="display:none;"></audio>
+
+<script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+	$(".back").click(function(){
+		$(".index",parent.document).css("transform","translateY(0)");
+	});
+
+	document.onselectstart=new Function("return false");
+	if (typeof(Worker) !== "undefined") {
+	(function(){
+		var typeId = 7;
+		var row = id("row");
+		var middle = id("middle");
+		var wall = document.querySelectorAll('[class*="wall-"]');
+		var pointer = id("pointer");
+		var angle = id("angle");
+		var comboValue = id("comboValue");
+		var showScore = id("showScore");
+		var clickTipsImg = id("clickTips");
+		var lineSight = 500;
+		var click = 1;
+		var comboMax = 500;
+		var combo = 0;
+		var stage = 2;
+		var score = 0;
+		var bumpTimeout1,bumpTimeout2;
+		var canIn = 1;
+		var startWrap = id("startWrap");
+		var startGame = id("startGame");
+		var descript = id("descript");
+		var isStart = 0;
+		var tmpDocument = document;
+
+		var style = {
+			middle : {
+				height : middle.offsetHeight,
+				width : middle.offsetWidth
+			},
+			row : {
+				bottom : 0,
+				left : 0,
+				width : row.offsetWidth
+			},
+			angle : {
+				left : 80,
+				display : "block",
+				rotateY : 180
+			},
+			wallStyle : {
+				positionY : 0
+			}
+		};
+
+		var tmpStartTimer = setInterval(function() {
+			if (!isStart) {
+				document.querySelector(".openingMusic").play();
+			} else {
+				clearInterval(tmpStartTimer)
+			}
+		}, 200);
+
+		player.classList.add("player-normal");
+
+		startGame.onclick=function(){
+			isStart = 1;
+			document.querySelector(".openingMusic").pause();
+			document.querySelector(".gamestartMusic").play();
+			startWrap.style.cssText = "display:none";
+			document.onclick=function(){
+				start();
+				player.classList.remove("player-normal");
+				document.onclick="";
+				c(200);
+			}
+		}
+		
+		// 角度指针运动 + 判断
+		function runPointer(time){
+			this.num = 0;
+			this.clear = function(){
+				clearInterval(interval);
+			};
+			var me = this;
+			var interval = setInterval(function(){
+				if(me.num < 90){
+					me.num += 15;
+					pointer.style.cssText+="transform:rotateZ(-"+me.num+"deg)";
+				}else{
+					clearInterval(interval);
+					gameover();
+					return
+				}
+			},time);
+		}
+
+		// 改变跳左/右的样式
+		function adJustStyle(angleStyle){
+			angleStyle || false;
+			if(angleStyle){
+				switch(click){
+					case 1:
+						angle.className = "angle";
+						style.angle.rotateY = 0;
+						style.angle.left = 80;
+					break;
+					case 2:
+						angle.className += " change";
+						style.angle.rotateY = 180;
+						style.angle.left = -100;
+					break;
+				}
+				angle.style.cssText += "transform:rotateY("+style.angle.rotateY+"deg);left:"+style.angle.left+"px;display:block;";
+			}else{
+				player.classList.remove("player-waiting-left");
+				player.classList.remove("player-waiting-right");
+				player.classList.remove("player-jump-left");
+				player.classList.remove("player-jump-right");
+				switch(click){
+					case 1:
+						click=2;
+						style.row.left = middle.offsetWidth - style.row.width;
+						player.classList.add("player-jump-left");
+						player.style.cssText += "transform:rotate(1800deg);";
+					break;
+					case 2:
+						click=1;
+						style.row.left = 0;
+						player.classList.add("player-jump-right");
+						player.style.cssText += "transform:rotate(0deg);";
+					break;
+				}
+				var bottomCount = style.row.bottom - row.offsetHeight / 2;
+				row.style.cssText += "left:"+style.row.left+"px;bottom:"+bottomCount+"px;";
+			}
+		}
+
+		// 分数面板数据
+		function panelData(num){
+			var numStage = stage;
+			// if(stage>=7){
+			// 	numStage = 1;
+			// }else{
+			// 	numStage = stage == 6 ? stage - 1 : stage;
+			// }
+			score += num * numStage;
+			// score = score >= 10000 ? 10000 : score;
+			showScore.innerText = score;
+			if(num>20){
+				combo += num * 300 / comboMax;
+				combo = combo >= 300 ? 300 : combo;
+				comboValue.style.cssText += "width:" + combo + "px";
+			}
+		}
+
+		// 角度对应的名称
+		function angleName(num){
+			var name;
+			switch(num){
+				case 30:
+					name = 'BAD';
+				break;
+				case 45:
+					name = 'GOOD';
+				break;
+				case 60:
+					name = 'NICE';
+				break;
+				case 75:
+					name = 'PERFECT';
+				break;
+				default:
+					name = '';
+				break;
+			}
+			if(name!=undefined){
+				var div = document.createElement("div");
+				div.className = "name "+name;
+				div.innerText = name;
+				setTimeout(function(){
+					middle.parentNode.appendChild(div);
+					div.style.cssText += "left:50%;margin-left:-"+div.offsetWidth / 2+"px;";
+					setTimeout(function(){
+						div.style.cssText += "left:-110%;";
+						setTimeout(function(){
+							div.parentNode.removeChild(div);
+						},500);
+					},1500);
+				},100);
+			}
+		}
+
+		// 能力值满后的技能
+		function combination(){
+			this.flag = 1;
+			this.time = Date.parse(new Date());
+			var me = this;
+			var interval = setInterval(function(){
+				if(combo>0){
+					if(me.flag==1){
+						me.flag=2;
+						me.time = Date.parse(new Date());
+					}
+					combo-=2;
+					comboValue.style.cssText += "width:" + combo +"px;";
+				}else{
+					clearInterval(interval);
+					return
+				}
+			},100);
+		}
+
+		// 中间高度和两边墙的样式更新
+		function wallMiddleUpdate(comboNow){
+			comboNow = comboNow==undefined ? 0 : comboNow;
+			style.middle.height = document.body.clientHeight / 2 + style.row.bottom + comboNow;
+			middle.style.cssText += "height:"+style.middle.height+"px";
+			wall[0].style.cssText += "background-position-y:"+style.middle.height+"px";
+			wall[1].style.cssText += "background-position-y:"+parseInt(style.middle.height + 300)+"px";
+		}
+
+		// 障碍
+		function obstacle(){
+			var timeArr = [3000,4000,5000,8000,10000];
+			var time = Math.round(Math.random()*timeArr.length);
+			canIn = 0;
+			setTimeout(function(){
+				document.querySelector(".chickenMusic").play();
+				var inteval = setInterval(function(){
+					if(lineSight<=0){
+						clearInterval(inteval);
+						bumpTimeout1 = setTimeout(function(){
+							lineSight = 500;
+							document.querySelector(".obstacle").children[0].style.cssText += "transform:translateZ(0) translateY(-60vh);transition:.5s cubic-bezier(0.25, 0.1, 0.9, 0.54);";
+							bumpTimeout2 = setTimeout(function(){
+								canIn = 1;
+								document.querySelector(".obstacle").style.cssText += "display:none";
+								document.querySelector(".obstacle").children[0].style.cssText += "transform:translateZ(-500px);transition:none;";
+							},500);
+						},200);
+					}
+					lineSight-=50;
+					document.querySelector(".obstacle").style.cssText += "display:block";
+					document.querySelector(".obstacle").children[0].style.cssText += "transform:translateZ(-"+lineSight+"px);";
+				},300)
+			},timeArr[time]);
+		}
+
+		function c(time){
+			if(lineSight==500&&canIn){
+				obstacle();
+			}
+			// if(score>=10000){
+			// 	document.onclick="";
+			// 	gameover("传说中的攀岩王者！");
+			// 	player.style.cssText += "background:url('images/sprite 63.png');background-size: 100% 100%;";
+			// 	comboValue.style.cssText += "width:0";
+			// 	return
+			// }else{
+				setTimeout(function(){
+					// 角度指针运动
+					var run = new runPointer(time);
+					// 改变角度在左右边的显示
+					adJustStyle(true);
+					if(click==1){
+						player.classList.add("player-waiting-left");
+					}else if(click==2){
+						player.classList.add("player-waiting-right");
+					}
+					document.onclick=function(){
+						run.clear();
+						document.onclick="";
+						setTimeout(function(){
+							
+							pointer.style.cssText += "transform:rotateZ(0deg)";
+							angle.style.cssText += "display:none;";
+							if(run.num<=15||run.num==90){
+								gameover();
+							}else{
+								document.querySelector(".jumpMusic").play();
+								var timeDown = 8;
+								var once = 0;
+								var timeDownInter = setInterval(function(){
+									// console.log(lineSight);
+									// var allwidth = middle.offsetWidth;
+									// console.log(Math.abs(allwidth / 2 - row.offsetLeft),row.offsetLeft);
+									// console.log(Math.abs(allwidth / 2 - row.offsetLeft));
+									// if(click==2){
+									// 	if(Math.abs(allwidth / 2 - row.offsetLeft) <= 30){
+									// 		alert();
+									// 		clearInterval(timeDownInter);
+									// 	}
+									// }else{
+									// 	if(Math.abs((row.offsetLeft-50) - allwidth / 2) <= 10){
+									// 		alert();
+									// 		clearInterval(timeDownInter);
+									// 	}
+									// }
+									// document.querySelector(".obstacle").style.cssText += "top:50%;left:50%;";
+									timeDown--;
+									// console.log(timeDown);
+									if(timeDown==5&&lineSight==0){
+										document.querySelector(".comboMusic").pause();
+										clearInterval(timeDownInter);
+										clearTimeout(bumpTimeout1);
+										clearTimeout(bumpTimeout2);
+										timeDown = 8;
+										combo = 0;
+										document.onclick="";
+										row.style.cssText += "bottom:-110%;left:"+row.offsetLeft+"px;transition:none;z-index:-1;";
+										var img = document.createElement("img");
+										img.setAttribute("src","images/bump.gif");
+										document.querySelector(".obstacle").appendChild(img);
+										document.querySelector(".obstacle").style.cssText += "display:block !important;";
+										document.querySelector(".obstacle").children[0].style.cssText += "display:none !important;";
+										document.querySelector(".obstacle").children[1].style.cssText += "width:100%;transform:translateZ(400px);transition:1.5s cubic-bezier(0.25, 0.1, 0.9, 0.54);";
+										// document.querySelector(".obstacle").children[0].setAttribute("src","images/bump.gif");
+										// document.querySelector(".obstacle").children[0].style.cssText += "transform:translateZ(350px);";
+										setTimeout(function(){
+											document.querySelector(".obstacle").children[1].style.cssText += "transform:translateZ(400px) translateY(60vh);";
+											setTimeout(function(){
+												gameover("万万没想到，GAME OVER");
+											},1500);
+										},1000);
+										return
+									}
+									if(timeDown<1){
+										clearInterval(timeDownInter);
+									}
+								},90);
+
+								// if(stage>=7){
+								// 	style.row.bottom += run.num * stage * 2;
+								// }else{
+									style.row.bottom += run.num * stage * 4;
+								// }
+								// 面板数据更新
+								panelData(run.num);
+								// 角度对应名称
+								angleName(run.num);
+								// 左右边的样式
+								adJustStyle();
+								// 中间高度和两边墙的样式更新
+								wallMiddleUpdate();
+								if(combo==300){
+									setTimeout(function(){
+										document.querySelector(".comboMusic").play();
+										clickTipsImg.style.cssText += "display:block";
+										if(click==1){
+											clickTipsImg.classList.remove("clickTips-right");
+											player.classList.add("player-run-left");
+										}else{
+											clickTipsImg.classList.add("clickTips-right");
+											player.classList.add("player-run");
+										}
+										var comboation = new combination();
+										var firstClick = 1;
+										document.onclick=function(){
+											firstClick = 2;
+											var time2 = Date.parse(new Date());
+											comboation.flag = 1;
+											var comboClick = time2 - comboation.time == 0 ? 2 : 1;
+											// 中间高度和两边墙的样式更新
+											wallMiddleUpdate(comboClick*60);
+											// 面板数据更新
+											panelData(comboClick);
+											style.row.bottom += comboClick * 10;
+											row.style.cssText += "bottom:"+style.row.bottom+"px;";								
+											comboing();				
+											setTimeout(firstClick = 1,2000);
+										}
+										var comboCountDown = setInterval(function(){
+											if(firstClick==1){
+												// 面板数据更新
+												panelData(1);
+												style.row.bottom += 40;										
+												row.style.cssText += "bottom:"+style.row.bottom+"px;";
+												// 中间高度和两边墙的样式更新
+												wallMiddleUpdate(100);
+												comboing();						
+											}
+										},200);
+										function comboing(){
+											if(combo==0){
+												document.querySelector(".comboMusic").pause();
+												clickTipsImg.classList.remove("clickTips-right");
+												clickTipsImg.style.cssText += "display:none";
+												if(click==1){
+													player.classList.remove("player-run-left");
+												}else{
+													player.classList.remove("player-run");
+												}
+												clearInterval(comboCountDown);
+												stage++;
+												document.onclick="";
+												c(time-=20);
+												pointer.style.cssText += "transition-duration:"+time * 4 / 1000+"s;";
+											}
+										}
+									},1000);
+								}else{
+									c(time);
+								}
+
+							}
+						},1000);
+					}
+				},1500);
+			// }
+		}
+
+		function start(){
+			// 面板数据更新
+			panelData(40);
+			style.row.bottom = 200;
+			row.style.cssText = "left:"+style.row.left+";bottom:"+style.row.bottom+"px;margin-left:0;";
+			player.classList.add("player-jump-right");
+		}
+
+		function gameover(name){
+			name = name || undefined
+			if(name!=undefined){
+				id("gameover").children[1].innerText = name;
+				showGamePanel();
+			}else{
+				document.querySelector(".gamestartMusic").pause();
+				document.querySelector(".gameoverPlayerMusic").play();
+				document.querySelector(".gameoverBgmMusic").play();
+				pointer.style.cssText += "transform:rotateZ(0deg)";
+				angle.style.cssText += "display:none;";
+				document.onclick="";
+				setTimeout(function(){
+					var left = click==1 ? style.row.left + (style.row.width / 2) * 2 : style.row.left - (style.row.width / 2) * 2;
+					row.style.cssText += "left:"+left+"px;transition:left 1s,bottom 2s cubic-bezier(0,0,.3,.27);";
+					player.className += " player-come";
+					setTimeout(function(){
+						if(click==1){
+							player.className += " player-down-left";
+						}else{
+							player.className += " player-down-right";					
+						}
+						row.style.cssText += "bottom:-100vh";
+						setTimeout(function(){
+							showGamePanel();
+						},1000)
+					},800)
+				},100)
+			}
+		}
+
+		function showGamePanel(){
+			var gameover = id("gameover");
+			var getScore = id("getScore");
+			var nickname = id("nickname");
+			var submit = id("submit");
+			var playAgain = id("playAgain");
+			try {
+				gameover.style.cssText = "opacity:1;visibility:visible;margin-left:-"+ gameover.offsetWidth / 2 +"px;";
+				getScore.innerText = score;
+				playAgain.onclick=function(){
+					window.location.href = window.location.href;
+				}
+			} catch(e) {
+			}
+		}
+	})();
+
+	var descriptWrap = document.querySelector(".descript");
+	var descriptControle = descriptWrap.querySelector(".controle");
+	var container = document.querySelector(".container");
+
+	id("descript").onclick=function(){
+		container.children[1].style.cssText = "display:none";
+		container.children[2].style.cssText = "display:none";
+		descriptWrap.style.cssText = "display:block";
+	}
+	document.querySelector(".backBtn").onclick=function(){
+		container.children[1].style.cssText = "";
+		container.children[2].style.cssText = "";
+		descriptWrap.style.cssText = "display:none";
+	}
+	descriptControle.onclick=function(){
+		document.querySelector("."+this.getAttribute("next")).style.cssText = "display:block;";
+		document.querySelector("."+this.getAttribute("prev")).style.cssText = "display:none;";
+		switch(this.getAttribute("next")){
+			case 'one':
+				this.innerText = "下一页";
+				this.setAttribute("next","two");
+				this.setAttribute("prev","one");
+			break;
+			case 'two':
+				this.innerText = "上一页";
+				this.setAttribute("next","one");
+				this.setAttribute("prev","two");
+			break;
+		}
+	}
+
+	function id(id){
+		return document.getElementById(id);
+	}
+	}else{
+		document.body.style.fontSize = "20px";
+		document.write("饿噢，浏览器版本有点低，为了获得更好的游戏体验，可以使用高版本浏览器或在微信中打开");
+	}
+});
+</script>
+</body>
+</html>
