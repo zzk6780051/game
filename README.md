@@ -9,7 +9,7 @@
             <p align="center">俄罗斯方块</p>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/word game">
-            <p align="center">单词游戏</p＞            
+            <p align="center">单词游戏</p>            
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/sweeping">
             <p align="center">扫雷</p>
