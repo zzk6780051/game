@@ -13,6 +13,7 @@
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/sweeping">
             <p align="center">扫雷</p>
+    </tr>
     <!-- 第二行 -->
     <tr>
     <td valign="top">
@@ -21,41 +22,27 @@
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/find different">
             <p align="center">找不同</p>
-        </a>
-    </td>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/double watermelon balls">
             <p align="center">双人西瓜球</p>
-        </a>
-    </td>
     </tr>
     <!-- 第三行 -->
     <tr>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/destroy the grid">
             <p align="center">开心消消乐</p>
-        </a>
-    </td>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/Chess">
             <p align="center">中国象棋</p>
-        </a>
-    </td>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/2048">
             <p align="center">2048</p>
-        </a>
-    </td>
     </tr>
     <!-- 第四行 -->
     <tr>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/Minecraft">
             <p align="center">我的世界</p>
-        </a>
-    </td>
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/Plants vs Zombies">
             <p align="center">植物大战僵尸</p>
-        </a>
-    </td>
