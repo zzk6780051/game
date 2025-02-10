@@ -22,8 +22,8 @@
         <a target="_blank" href="https://zzk6780051.github.io/game/find different">
             <p align="center">找不同</p>
     <td valign="top">
-        <a target="_blank" href="https://zzk6780051.github.io/game/double watermelon balls">
-            <p align="center">双人西瓜球</p>
+        <a target="_blank" href="https://zzk6780051.github.io/game/battlecity">
+            <p align="center">坦克大战</p>
     <!-- 第三行 -->
     <tr>
     <td valign="top">
@@ -47,3 +47,10 @@
         <a target="_blank" href="https://zzk6780051.github.io/flying rock">
             <p align="center">飞檐走壁</p>
     <!-- 第五行 -->
+    <tr>
+    <td valign="top">
+        <a target="_blank" href="https://zzk6780051.github.io/cuber">
+            <p align="center">魔方</p>
+    <td valign="top">
+        <a target="_blank" href="https://zzk6780051.github.io/plainGame">
+            <p align="center">飞机游戏</p>
