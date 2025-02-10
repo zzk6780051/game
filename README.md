@@ -33,8 +33,8 @@
         <a target="_blank" href="https://zzk6780051.github.io/game/Chess">
             <p align="center">中国象棋</p>
     <td valign="top">
-        <a target="_blank" href="https://zzk6780051.github.io/game/2048">
-            <p align="center">2048</p>
+        <a target="_blank" href="https://zzk6780051.github.io/plainGame">
+            <p align="center">飞机游戏</p>
     <!-- 第四行 -->
     <tr>
     <td valign="top">
@@ -51,6 +51,4 @@
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/cuber">
             <p align="center">魔方</p>
-    <td valign="top">
-        <a target="_blank" href="https://zzk6780051.github.io/plainGame">
-            <p align="center">飞机游戏</p>
+    
