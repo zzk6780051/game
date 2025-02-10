@@ -1,0 +1,57 @@
+.container.grid-list-md .layout:not(:only-child) {
+  margin: 0%;
+  padding: 0%;
+}
+.container.grid-list-md .layout .flex {
+  margin: 0%;
+  padding: 0%;
+}
+.v-input input {
+  max-height: 512px;
+  font-size: inherit;
+}
+.v-input__append-inner {
+  margin-top: 0% !important;
+}
+.v-input .v-label {
+  height: 100%;
+  line-height: 100%;
+}
+.v-input {
+  font-size: inherit;
+}
+.v-label {
+  font-size: inherit;
+}
+.v-slider__thumb-label {
+  font-size: inherit;
+}
+.v-slider__track-background {
+  transition: none !important;
+}
+.v-slider__track-fill {
+  transition: none !important;
+}
+.v-slider__thumb-container {
+  transition: none !important;
+}
+.v-text-field--outlined.v-input--dense .v-label {
+  top: 0px !important;
+}
+.v-textarea textarea {
+  line-height: inherit;
+  margin-top: 0 !important;
+}
+.v-card__text {
+  padding-bottom: 0 !important;
+  line-height: inherit;
+}
+.v-card__title {
+  line-height: inherit;
+}
+.v-color-picker {
+  max-width: 100% !important;
+}
+div::-webkit-scrollbar {
+  width: 0;
+}
