@@ -13,7 +13,6 @@
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/sweeping">
             <p align="center">扫雷</p>
-    </tr>
     <!-- 第二行 -->
     <tr>
     <td valign="top">
@@ -25,7 +24,6 @@
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/double watermelon balls">
             <p align="center">双人西瓜球</p>
-    </tr>
     <!-- 第三行 -->
     <tr>
     <td valign="top">
@@ -37,7 +35,6 @@
     <td valign="top">
         <a target="_blank" href="https://zzk6780051.github.io/game/2048">
             <p align="center">2048</p>
-    </tr>
     <!-- 第四行 -->
     <tr>
     <td valign="top">
