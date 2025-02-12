@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            width: 33%;
+            padding: 10px;
+        }
+        @media (max-width: 600px) {
+            td {
+                display: block;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div align="center">
+        <h1>Game</h1> 
+    </div>
+
+    <table align="center">
+        <!-- 第一行 -->
+        <tr>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/game/tetris">
+                    <p align="center">俄罗斯方块</p>
+                </a>
+            </td>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/game/word game">
+                    <p align="center">单词游戏</p>
+                </a>
+            </td>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/game/sweeping">
+                    <p align="center">扫雷</p>
+                </a>
+            </td>
+        </tr>
+        <!-- 第二行 -->
+        <tr>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/game/look at the numbers">
+                    <p align="center">数字连连看</p>
+                </a>
+            </td>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/game/find different">
+                    <p align="center">找不同</p>
+                </a>
+            </td>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/game/battlecity">
+                    <p align="center">坦克大战</p>
+                </a>
+            </td>
+        </tr>
+        <!-- 第三行 -->
+        <tr>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/game/destroy the grid">
+                    <p align="center">开心消消乐</p>
+                </a>
+            </td>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/game/Chess">
+                    <p align="center">中国象棋</p>
+                </a>
+            </td>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/plainGame">
+                    <p align="center">飞机游戏</p>
+                </a>
+            </td>
+        </tr>
+        <!-- 第四行 -->
+        <tr>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/game/Minecraft">
+                    <p align="center">我的世界</p>
+                </a>
+            </td>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/game/Plants vs Zombies">
+                    <p align="center">植物大战僵尸</p>
+                </a>
+            </td>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/flying rock">
+                    <p align="center">飞檐走壁</p>
+                </a>
+            </td>
+        </tr>
+        <!-- 第五行 -->
+        <tr>
+            <td valign="top">
+                <a target="_blank" href="https://zzk6780051.us.kg/cuber">
+                    <p align="center">魔方</p>
+                </a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
