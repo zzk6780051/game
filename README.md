@@ -81,23 +81,3 @@
                 <p align="center">我的世界</p>
             </a>
         </td>
-        <td valign="top">
-            <a target="_blank" href="https://zzk6780051.github.io/game/Plants vs Zombies">
-                <p align="center">植物大战僵尸</p>
-            </a>
-        </td>
-        <td valign="top">
-            <a target="_blank" href="https://zzk6780051.github.io/flying rock">
-                <p align="center">飞檐走壁</p>
-            </a>
-        </td>
-    </tr>
-    <!-- 第五行 -->
-    <tr>
-        <td valign="top">
-            <a target="_blank" href="https://zzk6780051.github.io/cuber">
-                <p align="center">魔方</p>
-            </a>
-        </td>
-    </tr>
-</table>
