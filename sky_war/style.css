@@ -1,0 +1,163 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#gameContainer {
+    position: relative;
+    border: 2px solid #00f0ff;
+    box-shadow: 0 0 20px #00f0ff;
+    max-width: 100%;
+    max-height: 100vh;
+}
+
+#gameCanvas {
+    background: #000;
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+#uiOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#score, #lives {
+    position: absolute;
+    top: 20px;
+    color: #00f0ff;
+    font-size: 20px;
+    text-shadow: 0 0 5px #00f0ff;
+    pointer-events: none;
+}
+
+#score {
+    left: 20px;
+}
+
+#lives {
+    right: 20px;
+}
+
+#invincibility {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    color: #ff5555;
+    font-size: 16px;
+    text-shadow: 0 0 5px #ff5555;
+    pointer-events: none;
+    display: none;
+}
+
+#gameOver, #startScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    border: 2px solid #00f0ff;
+    box-shadow: 0 0 20px #00f0ff;
+    color: white;
+    width: 80%;
+    max-width: 500px;
+}
+
+#gameOver h2, #startScreen h1 {
+    color: #00f0ff;
+    margin-bottom: 20px;
+}
+
+#gameOver p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+button {
+    background: #00f0ff;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.3s;
+}
+
+button:hover {
+    background: #00a0ff;
+    box-shadow: 0 0 10px #00f0ff;
+}
+
+.hidden {
+    display: none;
+}
+
+#startScreen {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    #gameContainer {
+        width: 95%;
+        border-width: 1px;
+    }
+    
+    #score, #lives {
+        font-size: 16px;
+        top: 10px;
+    }
+    
+    #score {
+        left: 10px;
+    }
+    
+    #lives {
+        right: 10px;
+    }
+    
+    #invincibility {
+        top: 40px;
+        font-size: 14px;
+        right: 10px;
+    }
+    
+    #gameOver, #startScreen {
+        padding: 20px;
+        width: 90%;
+    }
+    
+    #gameOver h2, #startScreen h1 {
+        font-size: 24px;
+    }
+    
+    #gameOver p {
+        font-size: 16px;
+    }
+    
+    button {
+        padding: 8px 16px;
+        font-size: 16px;
+    }
+}
