@@ -1,0 +1,352 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: white;
+}
+
+#gameContainer {
+    position: relative;
+    border: 3px solid #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#uiContainer {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    display: flex;
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+#uiContainer > div {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#gameCanvas {
+    background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+    display: block;
+}
+
+#achievementsPanel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 200px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+    opacity: 0.3; /* 默认半透明 */
+}
+
+#achievementsPanel:hover {
+    opacity: 1; /* 鼠标悬停时完全不透明 */
+}
+
+#achievementsPanel h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #FFD700;
+}
+
+#achievementsList {
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#achievementsList li {
+    padding: 5px;
+    border-bottom: 1px solid #555;
+    font-size: 14px;
+}
+
+#achievementsList li.unlocked {
+    color: #7CFC00;
+    font-weight: bold;
+}
+
+#achievementsList li.locked {
+    color: #888;
+}
+
+#achievementsList {
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#achievementsList li {
+    padding: 5px;
+    border-bottom: 1px solid #555;
+    font-size: 14px;
+}
+
+#achievementsList li.unlocked {
+    color: #7CFC00;
+    font-weight: bold;
+}
+
+#achievementsList li.locked {
+    color: #888;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#levelSelect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    z-index: 20;
+    width: 300px;
+}
+
+#levelSelect h2 {
+    margin-bottom: 20px;
+    color: #FFD700;
+}
+
+#levelButtons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.levelButton {
+    background: linear-gradient(to bottom, #4CAF50, #2E7D32);
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.levelButton:hover {
+    background: linear-gradient(to bottom, #66BB6A, #388E3C);
+    transform: scale(1.05);
+}
+
+.levelButton.locked {
+    background: linear-gradient(to bottom, #9E9E9E, #616161);
+    cursor: not-allowed;
+}
+
+#gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    z-index: 20;
+    width: 300px;
+}
+
+#gameOver h2 {
+    color: #FF5252;
+    margin-bottom: 20px;
+}
+
+#restartButton {
+    background: linear-gradient(to bottom, #2196F3, #0D47A1);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s;
+}
+
+#restartButton:hover {
+    background: linear-gradient(to bottom, #42A5F5, #1565C0);
+    transform: scale(1.05);
+}
+
+#rulesButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 15;
+}
+
+#rulesButton:hover {
+    background: rgba(50, 50, 50, 0.9);
+}
+
+#rulesModal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 30;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    background: #fff;
+    color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+}
+
+.closeButton:hover {
+    color: #f00;
+}
+
+.rulesContent h3 {
+    margin-top: 20px;
+    color: #2196F3;
+}
+
+.rulesContent ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.rulesContent li {
+    margin: 8px 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 850px) {
+    #gameContainer {
+        transform: scale(0.9);
+    }
+    
+    #achievementsPanel {
+        width: 150px;
+        font-size: 12px;
+    }
+    
+    #gameCanvas {
+        width: 720px;
+        height: 540px;
+    }
+    
+    #rulesButton {
+        right: 170px;
+    }
+}
+
+@media (max-width: 750px) {
+    #gameContainer {
+        transform: scale(0.8);
+    }
+    
+    #uiContainer {
+        font-size: 14px;
+    }
+    
+    #gameCanvas {
+        width: 640px;
+        height: 480px;
+    }
+    
+    #rulesButton {
+        right: 150px;
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 650px) {
+    #gameContainer {
+        transform: scale(0.7);
+    }
+    
+    #gameCanvas {
+        width: 560px;
+        height: 420px;
+    }
+    
+    #achievementsPanel {
+        width: 120px;
+        font-size: 10px;
+    }
+    
+    #rulesButton {
+        right: 130px;
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+    
+    .modalContent {
+        padding: 20px;
+        margin: 0 20px;
+    }
+}
+
+@media (max-width: 550px) {
+    #gameContainer {
+        transform: scale(0.6);
+    }
+    
+    #gameCanvas {
+        width: 480px;
+        height: 360px;
+    }
+    
+    #rulesButton {
+        right: 110px;
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+}

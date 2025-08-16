@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平台跳跃游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="uiContainer">
+            <div id="score">分数: 0</div>
+            <div id="lives">生命: 3</div>
+            <div id="level">关卡: 1</div>
+        </div>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div id="achievementsPanel">
+            <h3>成就</h3>
+            <ul id="achievementsList">
+                <!-- 成就将通过JavaScript动态添加 -->
+            </ul>
+        </div>
+    </div>
+    <div id="levelSelect" class="hidden">
+        <h2>选择关卡</h2>
+        <button id="rulesButton">规则</button>
+        <div id="levelButtons">
+            <!-- 关卡按钮将通过JavaScript动态添加 -->
+        </div>
+    </div>
+    <div id="gameOver" class="hidden">
+        <h2>游戏结束</h2>
+        <p>最终分数: <span id="finalScore">0</span></p>
+        <button id="restartButton">重新开始</button>
+    </div>
+    <div id="rulesModal" class="hidden">
+        <div class="modalContent">
+            <span class="closeButton">×</span>
+            <h2>玩法规则</h2>
+            <div class="rulesContent">
+                <h3>基本操作</h3>
+                <ul>
+                    <li>使用方向键或WASD控制角色移动</li>
+                    <li>按空格键或W键跳跃</li>
+                </ul>
+                
+                <h3>游戏目标</h3>
+                <ul>
+                    <li>收集金币获得分数</li>
+                    <li>踩踏敌人来击败它们</li>
+                    <li>避免掉入深渊或被敌人触碰</li>
+                    <li>到达关卡右端完成关卡</li>
+                </ul>
+                
+                <h3>游戏机制</h3>
+                <ul>
+                    <li>玩家有3条生命，受伤会失去1条生命</li>
+                    <li>收集金币获得100分</li>
+                    <li>击败敌人获得200分</li>
+                    <li>完成关卡获得1000分</li>
+                    <li>游戏中有移动平台，站在上面会跟随移动</li>
+                </ul>
+                
+                <h3>成就系统</h3>
+                <ul>
+                    <li>首次跳跃 - 完成第一次跳跃</li>
+                    <li>收集10个金币 - 收集10个金币</li>
+                    <li>完成第一关 - 完成第一关</li>
+                    <li>无伤通关 - 在不失去生命的情况下完成关卡</li>
+                    <li>征服者 - 完成所有关卡</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="sounds.js"></script>
+    <script src="effects.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

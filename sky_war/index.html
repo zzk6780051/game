@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>太空射击游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div id="uiOverlay">
+            <div id="score">得分: 0</div>
+            <div id="lives">生命: 3</div>
+            <div id="invincibility">无敌模式</div>
+            <div id="gameOver" class="hidden">
+                <h2>游戏结束</h2>
+                <p>最终得分: <span id="finalScore">0</span></p>
+                <button id="restartButton">重新开始</button>
+            </div>
+            <div id="startScreen">
+                <h1>太空射击游戏</h1>
+                <p>使用方向键移动，空格键射击</p>
+                <button id="startButton">开始游戏</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
