@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <title>史诗RPG冒险</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 游戏主容器 -->
+    <div id="game-container">
+        <!-- 主菜单界面 -->
+        <div id="main-menu" class="screen active">
+            <h1>史诗RPG冒险</h1>
+            <button id="start-game">开始游戏</button>
+            <button id="settings-btn">设置</button>
+            <button id="help-btn">帮助</button>
+        </div>
+
+        <!-- 游戏世界界面 -->
+        <div id="game-world" class="screen">
+            <div id="map-container">
+                <canvas id="game-map" width="800" height="600"></canvas>
+            </div>
+            <div id="player-info">
+                <div id="player-stats">
+                    <div>生命值: <span id="health">100</span></div>
+                    <div>魔法值: <span id="mana">50</span></div>
+                    <div>经验值: <span id="exp">0</span></div>
+                    <div>等级: <span id="level">1</span></div>
+                </div>
+                <button id="inventory-btn">背包</button>
+                <button id="skills-btn">技能</button>
+                <button id="quests-btn">任务</button>
+            </div>
+        </div>
+
+        <!-- 战斗界面 -->
+        <div id="battle-screen" class="screen">
+            <div id="battle-area">
+                <div id="player-battle">
+                    <div>玩家</div>
+                    <div>生命值: <span id="player-health">100</span></div>
+                </div>
+                <div id="enemy-battle">
+                    <div>敌人</div>
+                    <div>生命值: <span id="enemy-health">80</span></div>
+                </div>
+            </div>
+            <div id="battle-actions">
+                <button class="attack-btn">攻击</button>
+                <button class="skill-btn">技能</button>
+                <button class="item-btn">道具</button>
+                <button class="flee-btn">逃跑</button>
+            </div>
+        </div>
+
+        <!-- 角色界面 -->
+        <div id="character-screen" class="screen">
+            <h2>角色信息</h2>
+            <div id="character-stats">
+                <div>生命值: <span id="char-health">100</span></div>
+                <div>魔法值: <span id="char-mana">50</span></div>
+                <div>攻击力: <span id="char-attack">10</span></div>
+                <div>防御力: <span id="char-defense">5</span></div>
+                <div>等级: <span id="char-level">1</span></div>
+                <div>经验值: <span id="char-exp">0</span></div>
+            </div>
+            <div id="equipment">
+                <h3>装备</h3>
+                <div>武器: <span id="weapon">无</span></div>
+                <div>护甲: <span id="armor">无</span></div>
+            </div>
+            <button id="back-to-world">返回游戏</button>
+        </div>
+
+        <!-- 背包界面 -->
+        <div id="inventory-screen" class="screen">
+            <h2>背包</h2>
+            <div id="inventory-items">
+                <!-- 物品将通过JavaScript动态添加 -->
+            </div>
+            <button id="close-inventory">关闭</button>
+        </div>
+
+        <!-- 技能界面 -->
+        <div id="skills-screen" class="screen">
+            <h2>技能</h2>
+            <div id="skills-list">
+                <!-- 技能将通过JavaScript动态添加 -->
+            </div>
+            <button id="close-skills">关闭</button>
+        </div>
+
+        <!-- 任务界面 -->
+        <div id="quests-screen" class="screen">
+            <h2>任务</h2>
+            <div id="quests-list">
+                <!-- 任务将通过JavaScript动态添加 -->
+            </div>
+            <button id="close-quests">关闭</button>
+        </div>
+
+        <!-- 设置界面 -->
+        <div id="settings-screen" class="screen">
+            <h2>设置</h2>
+            <div>
+                <label for="music-volume">音乐音量:</label>
+                <input type="range" id="music-volume" min="0" max="100" value="50">
+            </div>
+            <div>
+                <label for="sfx-volume">音效音量:</label>
+                <input type="range" id="sfx-volume" min="0" max="100" value="50">
+            </div>
+            <button id="close-settings">关闭</button>
+        </div>
+
+        <!-- 帮助界面 -->
+        <div id="help-screen" class="screen">
+            <h2>帮助</h2>
+            <div>
+                <p>使用方向键或WASD移动角色</p>
+                <p>空格键与NPC交互</p>
+                <p>ESC键打开角色菜单</p>
+            </div>
+            <button id="close-help">关闭</button>
+        </div>
+    </div>
+
+    <script src="audio.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

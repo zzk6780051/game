@@ -1,0 +1,371 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+}
+
+/* 游戏容器 */
+#game-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: linear-gradient(to bottom, #1a1a2e, #16213e);
+}
+
+/* 屏幕样式 */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* 主菜单 */
+#main-menu {
+    background: linear-gradient(to bottom, #0f3460, #1a1a2e);
+}
+
+#main-menu h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px #4ecca3;
+    color: #4ecca3;
+}
+
+#main-menu button {
+    background: #4ecca3;
+    color: #000;
+    border: none;
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#main-menu button:hover {
+    background: #3da58a;
+    transform: scale(1.05);
+}
+
+/* 游戏世界 */
+#game-world {
+    flex-direction: row;
+    padding: 0;
+}
+
+#map-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #232931;
+}
+
+#game-map {
+    border: 2px solid #4ecca3;
+    background: #393e46;
+}
+
+#player-info {
+    width: 300px;
+    background: #1a1a2e;
+    padding: 20px;
+    border-left: 2px solid #4ecca3;
+    display: flex;
+    flex-direction: column;
+}
+
+#player-stats div {
+    margin: 10px 0;
+    font-size: 1.2rem;
+}
+
+#player-info button {
+    background: #4ecca3;
+    color: #000;
+    border: none;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 战斗界面 */
+#battle-screen {
+    background: linear-gradient(to bottom, #2c001e, #4d0039);
+}
+
+#battle-area {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+#player-battle, #enemy-battle {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 200px;
+}
+
+#battle-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.battle-btn {
+    background: #e94560;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.battle-btn:hover {
+    background: #d3304d;
+    transform: scale(1.05);
+}
+
+/* 角色界面 */
+#character-screen {
+    background: #1a1a2e;
+}
+
+#character-stats, #equipment {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+}
+
+#character-stats div, #equipment div {
+    margin: 10px 0;
+    font-size: 1.2rem;
+}
+
+/* 背包界面 */
+#inventory-screen {
+    background: #1a1a2e;
+}
+
+#inventory-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 20px 0;
+    width: 80%;
+    max-width: 600px;
+}
+
+.inventory-item {
+    background: rgba(78, 204, 163, 0.2);
+    border: 1px solid #4ecca3;
+    padding: 15px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.inventory-item:hover {
+    background: rgba(78, 204, 163, 0.4);
+    transform: scale(1.05);
+}
+
+/* 技能界面 */
+#skills-screen {
+    background: #1a1a2e;
+}
+
+#skills-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 20px 0;
+    width: 80%;
+    max-width: 600px;
+}
+
+.skill {
+    background: rgba(233, 69, 96, 0.2);
+    border: 1px solid #e94560;
+    padding: 15px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/* 任务界面 */
+#quests-screen {
+    background: #1a1a2e;
+}
+
+#quests-list {
+    width: 80%;
+    max-width: 600px;
+}
+
+.quest {
+    background: rgba(0, 100, 200, 0.2);
+    border: 1px solid #0064c8;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+/* 设置界面 */
+#settings-screen {
+    background: #1a1a2e;
+}
+
+#settings-screen div {
+    margin: 20px 0;
+    width: 80%;
+    max-width: 500px;
+}
+
+#settings-screen label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+#settings-screen input[type="range"] {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #393e46;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+#settings-screen input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4ecca3;
+    cursor: pointer;
+}
+
+#settings-screen input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4ecca3;
+    cursor: pointer;
+    border: none;
+}
+
+/* 帮助界面 */
+#help-screen {
+    background: #1a1a2e;
+}
+
+#help-screen div {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+}
+
+#help-screen p {
+    margin: 10px 0;
+    font-size: 1.2rem;
+}
+
+/* 通用按钮样式 */
+button {
+    background: #4ecca3;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-touch-callout: none; /* 阻止长按选择 */
+    -webkit-user-select: none; /* 阻止文本选择 */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+button:hover {
+    background: #3da58a;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    #game-world {
+        flex-direction: column;
+    }
+    
+    #player-info {
+        width: 100%;
+        border-left: none;
+        border-top: 2px solid #4ecca3;
+    }
+    
+    #inventory-items, #skills-list {
+        grid-template-columns: 1fr;
+    }
+    
+    /* 移动端优化 */
+    button {
+        padding: 15px 25px;
+        font-size: 1.1rem;
+    }
+    
+    #main-menu h1 {
+        font-size: 2.5rem;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    button:hover {
+        background: #4ecca3; /* 在触摸设备上禁用hover效果 */
+        transform: none;
+    }
+    
+    button:active {
+        background: #3da58a;
+        transform: scale(0.95);
+    }
+}

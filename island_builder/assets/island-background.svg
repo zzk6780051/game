@@ -1,0 +1,47 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <!-- 海洋背景 -->
+  <rect width="100%" height="100%" fill="#4A90E2" />
+  
+  <!-- 岛屿主体 -->
+  <ellipse cx="400" cy="350" rx="250" ry="180" fill="#8BC34A" />
+  
+  <!-- 岛屿山丘 -->
+  <ellipse cx="350" cy="300" rx="100" ry="80" fill="#7CB342" />
+  <ellipse cx="450" cy="320" rx="80" ry="60" fill="#7CB342" />
+  
+  <!-- 树木 -->
+  <g fill="#4CAF50">
+    <!-- 树冠 -->
+    <circle cx="300" cy="280" r="15" />
+    <circle cx="310" cy="270" r="12" />
+    <circle cx="290" cy="270" r="12" />
+    
+    <!-- 树干 -->
+    <rect x="298" y="280" width="4" height="20" fill="#5D4037" />
+  </g>
+  
+  <g fill="#4CAF50">
+    <!-- 树冠 -->
+    <circle cx="500" cy="300" r="15" />
+    <circle cx="510" cy="290" r="12" />
+    <circle cx="490" cy="290" r="12" />
+    
+    <!-- 树干 -->
+    <rect x="498" y="300" width="4" height="20" fill="#5D4037" />
+  </g>
+  
+  <!-- 房屋 -->
+  <g>
+    <!-- 房屋主体 -->
+    <rect x="380" y="350" width="40" height="30" fill="#FFCC80" />
+    
+    <!-- 屋顶 -->
+    <polygon points="375,350 425,350 400,330" fill="#8D6E63" />
+  </g>
+  
+  <!-- 海滩 -->
+  <path d="M200,400 Q400,380 600,400 L600,450 Q400,430 200,450 Z" fill="#FFECB3" />
+  
+  <!-- 太阳 -->
+  <circle cx="100" cy="100" r="40" fill="#FFEB3B" />
+</svg>

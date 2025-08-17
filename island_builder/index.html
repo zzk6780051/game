@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>岛屿开拓者 - 模拟经营游戏</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- 游戏标题 -->
+        <header id="game-header">
+            <h1>岛屿开拓者</h1>
+            <div id="game-info">
+                <span id="game-day">第1天</span>
+                <span id="game-season">春季</span>
+            </div>
+        </header>
+
+        <!-- 资源面板 -->
+        <div id="resource-panel">
+            <h2>资源</h2>
+            <div class="resource-item">
+                <span class="resource-name">木材</span>
+                <span class="resource-value" id="wood-value">0</span>
+            </div>
+            <div class="resource-item">
+                <span class="resource-name">石材</span>
+                <span class="resource-value" id="stone-value">0</span>
+            </div>
+            <div class="resource-item">
+                <span class="resource-name">食物</span>
+                <span class="resource-value" id="food-value">0</span>
+            </div>
+            <div class="resource-item">
+                <span class="resource-name">金币</span>
+                <span class="resource-value" id="gold-value">0</span>
+            </div>
+        </div>
+
+        <!-- 主游戏区域 -->
+        <div id="game-area">
+            <div id="island-map">
+                <!-- 岛屿地图将通过JavaScript生成 -->
+            </div>
+        </div>
+
+        <!-- 建筑菜单 -->
+        <div id="building-menu">
+            <h2>建筑</h2>
+            <div class="building-item" data-building="house">
+                <img src="assets/house.svg" class="building-icon" alt="住宅">
+                <span class="building-name">住宅</span>
+                <span class="building-cost">木材: 10</span>
+            </div>
+            <div class="building-item" data-building="warehouse">
+                <img src="assets/warehouse.svg" class="building-icon" alt="仓库">
+                <span class="building-name">仓库</span>
+                <span class="building-cost">木材: 20, 石材: 10</span>
+            </div>
+            <div class="building-item" data-building="farm">
+                <img src="assets/farm.svg" class="building-icon" alt="农场">
+                <span class="building-name">农场</span>
+                <span class="building-cost">木材: 15</span>
+            </div>
+            <div class="building-item" data-building="workshop">
+                <img src="assets/workshop.svg" class="building-icon" alt="工坊">
+                <span class="building-name">工坊</span>
+                <span class="building-cost">木材: 25, 石材: 15</span>
+            </div>
+            <div class="building-item" data-building="mine">
+                <img src="assets/mine.svg" class="building-icon" alt="矿场">
+                <span class="building-name">矿场</span>
+                <span class="building-cost">木材: 30, 石材: 20</span>
+            </div>
+        </div>
+
+        <!-- 任务日志 -->
+        <div id="task-log">
+            <h2>任务日志</h2>
+            <ul id="task-list">
+                <li>建造你的第一个住宅</li>
+                <li>收集10个木材</li>
+                <li>探索岛屿的北部区域</li>
+            </ul>
+        </div>
+
+        <!-- 探索区域 -->
+        <div id="exploration-panel">
+            <h2>探索</h2>
+            <button id="explore-north">探索北部</button>
+            <button id="explore-south">探索南部</button>
+            <button id="explore-east">探索东部</button>
+            <button id="explore-west">探索西部</button>
+        </div>
+    </div>
+
+    <!-- 游戏脚本 -->
+    <script src="js/sound.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>

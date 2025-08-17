@@ -1,0 +1,6 @@
+<svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+  <!-- 住宅图标 -->
+  <rect x="10" y="20" width="30" height="25" fill="#FFCC80" />
+  <polygon points="5,20 45,20 25,5" fill="#8D6E63" />
+  <rect x="22" y="30" width="6" height="15" fill="#5D4037" />
+</svg>
