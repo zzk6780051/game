@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack-a-Mole 打地鼠游戏</title>
+    <link rel="stylesheet" href="whack-a-mole.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Whack-a-Mole 打地鼠</h1>
+        </header>
+        
+        <div class="game-info">
+            <div class="score-board">
+                <div class="score">得分: <span id="score">0</span></div>
+                <div class="timer">时间: <span id="timer">30</span>s</div>
+            </div>
+            <div class="controls">
+                <button id="start-btn">开始游戏</button>
+                <label class="sound-toggle">
+                    <input type="checkbox" id="sound-toggle" checked>
+                    音效
+                </label>
+            </div>
+        </div>
+        
+        <div class="game-board" id="game-board">
+            <!-- 3x3网格的洞穴 -->
+            <div class="hole" id="hole1">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole2">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole3">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole4">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole5">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole6">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole7">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole8">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole9">
+                <div class="mole"></div>
+            </div>
+        </div>
+        
+        <div class="game-over" id="game-over" style="display: none;">
+            <h2>游戏结束!</h2>
+            <p>你的得分: <span id="final-score">0</span></p>
+            <button id="restart-btn">重新开始</button>
+        </div>
+    </div>
+    
+    <script src="whack-a-mole.js"></script>
+</body>
+</html>
